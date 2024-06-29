@@ -3,7 +3,7 @@
 .container {
     display: flex;
     background-color: #454545;
-    height: 60px;
+    height: 80px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -24,8 +24,23 @@
     transition: color 0.3s ease;
     display: inline-block;
     padding: 10px;
+    transition: font-size 0.3s ease;
 }
 
 .link:hover {
     color: blueviolet;
+    font-size: x-large;
+}
+
+.logo-link {
+    margin-left: 15px;
+}
+
+.logo {
+    height: 50px;
+    transition: height 0.3s ease;
+}
+
+.logo:hover {
+    height: 55px;
 }

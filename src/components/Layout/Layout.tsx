@@ -10,23 +10,25 @@ const search = (term: string) => {
 
 const Layout = () => {
     return (
-        <div className="container">
-            <NavLink to="/" className="logo-link">
-                <img src={Images.logo.src} alt={Images.logo.alt} className="logo" />
-            </NavLink>
-            <SearchBar height={40} width={300} placeholder="Search products" onSearch={search} />
-            <div className="link-container">
-                <NavLink to="/" className="link">
-                    Home
+        <div>
+            <div className="navbar">
+                <NavLink to="/" className="logo-link">
+                    <img src={Images.logo.src} alt={Images.logo.alt} className="logo" />
                 </NavLink>
-                <NavLink to="/" className="link">
-                    About
-                </NavLink>
-                <NavLink to="/" className="link">
-                    Contact
-                </NavLink>
-                <Outlet />
+                <SearchBar height={40} width={300} placeholder="Search products" onSearch={search} />
+                <div className="link-container">
+                    <NavLink to="/" className="link">
+                        Home
+                    </NavLink>
+                    <NavLink to="/" className="link">
+                        About
+                    </NavLink>
+                    <NavLink to="/" className="link">
+                        Contact
+                    </NavLink>
+                </div>
             </div>
+            <Outlet />
         </div>
     )
 }

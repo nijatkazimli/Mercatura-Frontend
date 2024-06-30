@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
-.container {
+.navbar {
     display: flex;
     background-color: #454545;
     height: 80px;
@@ -46,7 +46,7 @@
 }
 
 @media (max-width: 860px) {
-    .container {
+    .navbar {
         flex-direction: column;
         height: auto;
         padding: 10px;

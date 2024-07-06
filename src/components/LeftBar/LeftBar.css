@@ -12,9 +12,3 @@
 .leftBar:hover {
     width: 280px;
 }
-
-@media (max-width: 860px) {
-    .leftBar {
-        visibility: hidden;
-    }
-}

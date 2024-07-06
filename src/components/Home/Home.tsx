@@ -6,9 +6,11 @@ const Home = () => {
     return (
         <div className="layout">
             <LeftBar />
-            <p>
-                Home
-            </p>
+            <div className="page-content">
+                <p>
+                    Products
+                </p>
+            </div>
         </div>
     );
 };

@@ -25,3 +25,7 @@
     height: 100%;
     filter: invert(96%) sepia(100%) saturate(6273%) hue-rotate(183deg) brightness(127%) contrast(92%);
 }
+
+.dropdown-trigger {
+    height: 100%;
+}

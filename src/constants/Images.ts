@@ -7,6 +7,10 @@ const Images = {
         src: require('../media/search-icon.png'),
         alt: "search icon",
     },
+    noProductImage: {
+        src: require('../media/no-image.png'),
+        alt: "no product image",
+    },
 }
 
 export default Images;

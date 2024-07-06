@@ -15,6 +15,6 @@
 
 @media (max-width: 860px) {
     .leftBar {
-        width: 150px;
+        visibility: hidden;
     }
 }

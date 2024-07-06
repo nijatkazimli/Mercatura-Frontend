@@ -1,6 +1,7 @@
 import React from "react";
 import Images from "../../../constants/Images";
 import "./ProductItem.css";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     imageSrc?: string,
@@ -9,8 +10,14 @@ type Props = {
 };
 
 const ProductItem = ({ imageSrc, name, price }: Props) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/products/1");
+    };
+
     return (
-        <div className="container">
+        <div className="container" onClick={handleClick}>
             <img
                 className="image"
                 src={imageSrc ?? Images.noProductImage.src}

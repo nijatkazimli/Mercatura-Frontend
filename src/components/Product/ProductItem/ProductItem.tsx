@@ -2,12 +2,22 @@ import React from "react";
 import Images from "../../../constants/Images";
 import "./ProductItem.css";
 
-const ProductItem = () => {
+type Props = {
+    imageSrc?: string,
+    name: string,
+    price: number,
+};
+
+const ProductItem = ({ imageSrc, name, price }: Props) => {
     return (
         <div className="container">
-            <img className="image" src={Images.noProductImage.src} alt={Images.noProductImage.alt} />
-            <p>Item 1</p>
-            <p>100 $</p>
+            <img
+                className="image"
+                src={imageSrc ?? Images.noProductImage.src}
+                alt={imageSrc ? Images.productImage.alt : Images.noProductImage.alt}
+            />
+            <p>{name}</p>
+            <p>{price} $</p>
         </div>
     )
 };

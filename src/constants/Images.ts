@@ -11,6 +11,9 @@ const Images = {
         src: require('../media/no-image.png'),
         alt: "no product image",
     },
+    productImage: {
+        alt: "product image",
+    }
 }
 
 export default Images;

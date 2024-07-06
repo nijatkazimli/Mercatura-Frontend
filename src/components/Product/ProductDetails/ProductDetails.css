@@ -2,6 +2,7 @@
     padding: 30px;
     display: flex;
     font-family: 'Montserrat';
+    align-items: center;
 }
 
 .details-and-similar-container {    

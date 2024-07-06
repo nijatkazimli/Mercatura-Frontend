@@ -52,6 +52,8 @@
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "globals": "^15.6.0",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "typescript-eslint": "^7.14.1"
   }
 }

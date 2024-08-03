@@ -1,0 +1,14 @@
+.leftBar {
+    width: 260px;
+    height: 100vh;
+    margin-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #6e6e6e;
+    color: whitesmoke;
+    transition: width 0.3s ease;
+}
+
+.leftBar:hover {
+    width: 280px;
+}

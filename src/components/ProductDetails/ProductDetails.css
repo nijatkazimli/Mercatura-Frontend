@@ -1,0 +1,38 @@
+.product-details-container {
+    padding: 30px;
+    display: flex;
+    font-family: 'Montserrat';
+    align-items: center;
+}
+
+.details-and-similar-container {    
+    flex: 3;
+}
+
+.details-and-similar-container > div {
+    flex: 1;
+}
+
+.product-details-container > div:nth-child(2) {
+    flex: 1;
+}
+
+.add-to-card-button {
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .product-details-container {
+        flex-direction: column;
+    }
+
+    .details-and-similar-container {
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .product-details-container > div:nth-child(2) {
+        flex: none;
+        width: 100%;
+    }
+}

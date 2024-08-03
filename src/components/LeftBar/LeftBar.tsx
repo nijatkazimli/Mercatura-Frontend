@@ -1,12 +1,12 @@
-import React from "react";
-import "./LeftBar.css";
+import './LeftBar.css';
+import React from 'react';
 
-const LeftBar = () => {
-    return (
-        <div className="leftBar">
-            <p>For now, empty.</p>
-        </div>
-    )
-};
+function LeftBar() {
+  return (
+    <div className="leftBar">
+      <p>For now, empty.</p>
+    </div>
+  );
+}
 
 export default LeftBar;

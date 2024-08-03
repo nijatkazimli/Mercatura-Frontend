@@ -5,13 +5,13 @@
       "target": "ESNext",
       "lib": ["ESNext", "DOM", "DOM.Iterable"],
       "allowJs": true,
-      "jsx": "preserve",
+      "jsx": "react",
       "esModuleInterop": true,
-      "moduleResolution": "bundler",
+      "moduleResolution": "Node",
       "forceConsistentCasingInFileNames": true,
       "useUnknownInCatchVariables": true,
       "noImplicitOverride": true,
-      "verbatimModuleSyntax": true,
+      "noImplicitAny": true,
       "paths": {
           "test/*": ["test/*"],
           "~/*": ["src/*"]
@@ -19,5 +19,6 @@
       "typeRoots": ["src/types", "node_modules/@types"],
       "baseUrl": "."
   },
-  "include": ["src", "test"]
+  "include": ["src", "test"],
+  "exclude": ["node_modules", "src/reportWebVitals.ts"]
 }

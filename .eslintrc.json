@@ -35,7 +35,7 @@
         ],
         "react/jsx-props-no-spreading": "off",
         "global-require": "off",
-        "prefer-default-export": "off",
+        "import/prefer-default-export": "off",
         "linebreak-style": ["off", "windows"],
         "max-len": ["error", { "code": 150 }],
         "no-shadow": "off",
@@ -54,6 +54,9 @@
             "parser": "@typescript-eslint/parser",
             "parserOptions": {
                 "ecmaVersion": "latest"
+            },
+            "rules": {
+                "import/prefer-default-export": "off"
             }
         }
     ]

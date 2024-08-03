@@ -3,7 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import './Layout.css';
 import { isMobile } from 'react-device-detect';
 import Images from '../../constants/Images';
-import SearchBar from '../SearchBar/SearchBar';
+import SearchBar from '../General/SearchBar';
 
 const search = (term: string, dropdownValue?: string) => {
   // eslint-disable-next-line no-console

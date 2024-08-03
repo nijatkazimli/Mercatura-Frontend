@@ -2,8 +2,8 @@ import React from 'react';
 import './Home.css';
 import { isMobile } from 'react-device-detect';
 import { Grid } from '@radix-ui/themes';
-import LeftBar from '../LeftBar/LeftBar';
-import ProductItem from '../Product/ProductItem/ProductItem';
+import LeftBar from '../General/LeftBar';
+import ProductItem from '../General/Product/ProductItem';
 
 const dummyProducts = [
   { name: 'Product 1', price: 10.99 },

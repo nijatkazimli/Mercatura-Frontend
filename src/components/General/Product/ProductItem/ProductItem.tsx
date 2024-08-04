@@ -4,16 +4,19 @@ import Images from '../../../../constants/Images';
 import './ProductItem.css';
 
 type Props = {
-    imageSrc?: string,
-    name: string,
-    price: number,
+  id: string,
+  imageSrc?: string,
+  name: string,
+  price: number,
 };
 
-function ProductItem({ imageSrc, name, price }: Props) {
+function ProductItem({
+  id, imageSrc, name, price,
+}: Props) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/products/1');
+    navigate(`/product/${id}`);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {

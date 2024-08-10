@@ -1,4 +1,6 @@
-const baseUrl = 'https://mercatura-backend.azurewebsites.net:8080';
+// const baseUrl = 'https://mercatura-backend.azurewebsites.net:8080';
+// const baseUrl = 'http://localhost:8080';
+const baseUrl = 'https://mercatura-backend-apim.azure-api.net';
 
 export async function fetchData<T>(path: string, options?: RequestInit): Promise<T> {
   const defaultOptions: RequestInit = {

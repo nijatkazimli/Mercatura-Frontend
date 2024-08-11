@@ -1,0 +1,49 @@
+.review-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.review-submit {
+    cursor: pointer;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    width: 20px;
+    height: 20px;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+  
+.star:hover {
+    width: 24px;
+    height: 24px;
+}
+
+.callout {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    visibility: hidden;
+}
+  
+.callout.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+  
+.callout.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    width: 0px !important;
+    height: 0px !important;
+}
+  

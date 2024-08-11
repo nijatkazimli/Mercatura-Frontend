@@ -10,7 +10,7 @@ type Props = {
 
 function Review({ review }: Props) {
   const renderStars = () => Array.from({ length: 5 }, (_, i) => (
-    i < review.rating - 1 ? <StarFilledIcon width={12} key={i} /> : <StarIcon width={12} key={i} />
+    i < review.rating ? <StarFilledIcon width={12} key={i} /> : <StarIcon width={12} key={i} />
   ));
 
   return (

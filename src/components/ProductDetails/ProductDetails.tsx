@@ -1,47 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import './ProductDetails.css';
 import { Button } from '@radix-ui/themes';
-import { PlusCircledIcon, StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
+import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { useParams } from 'react-router-dom';
 import Images from '../../constants/Images';
 import ProductItem from '../General/Product/ProductItem';
 import Reviews from '../General/Reviews/Reviews';
-import { fetchData, Product, Review } from '../../api';
-import { getAverageRating } from '../../common/utils';
+import { fetchData, Product } from '../../api';
 
 function ProductDetails() {
-  const { id } = useParams();
-  const [productDetails, setProductDetails] = useState<Product>();
-  const [reviews, setReviews] = useState<Review[]>();
+  const { id } = useParams<{ id: string }>();
+  const [productDetails, setProductDetails] = useState<Product | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const productDetails = await fetchData<Product>(`/product/${id}`);
-      setProductDetails(productDetails);
-    };
+      if (!id) {
+        setError('Product ID is not available.');
+        setLoading(false);
+        return;
+      }
 
-    const fetchReviews = async () => {
-      const reviews = await fetchData<Review[]>(`/review/get?productId=${id}`);
-      setReviews(reviews);
+      try {
+        const product = await fetchData<Product>(`/product/${id}`);
+        setProductDetails(product);
+        setError(null);
+      } catch (err) {
+        setError('Failed to fetch product details.');
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchDetails();
-    fetchReviews();
-  }, []);
+  }, [id]);
 
-  const renderStars = () => {
-    const averageRating = Math.round(getAverageRating(reviews ?? []));
-    return Array.from({ length: 5 }, (_, i) => (
-      i < averageRating - 1 ? <StarFilledIcon key={i} /> : <StarIcon key={i} />
-    ));
-  };
+  if (loading) return <p>Loading product details...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="product-details-container">
       <div className="details-and-similar-container">
         {productDetails && (
           <div>
-            <img src={Images.noProductImage.src} alt={Images.productImage.alt} className="product-details-image" />
+            <img
+              src={productDetails.image || Images.noProductImage.src}
+              alt={productDetails.name || Images.productImage.alt}
+              className="product-details-image"
+            />
             <p>{productDetails.name}</p>
             <p>
               {productDetails.price}
@@ -49,29 +56,23 @@ function ProductDetails() {
               $
             </p>
             <p>{productDetails.category}</p>
-            <p>{productDetails.description ?? ''}</p>
-            <p>
-              {renderStars()}
-              {'  '}
-              {`(${getAverageRating(reviews ?? [])})`}
-            </p>
+            <p>{productDetails.description ?? 'No description available.'}</p>
             <Button color="purple" size="3" className="add-to-card-button">
               <PlusCircledIcon />
               {' '}
-              Add to Card
+              Add to Cart
             </Button>
           </div>
         )}
         <div className="reviews">
           <p>Reviews</p>
-          <Reviews reviews={reviews ?? []} />
+          <Reviews productId={id ?? '0'} />
         </div>
       </div>
       <div>
         <p>Also see</p>
         <ProductItem id="1" name="Test" price={10} />
-        {/* after filtering */}
-        <ProductItem id="1" name="Test2" price={30} />
+        <ProductItem id="2" name="Test2" price={30} />
       </div>
     </div>
   );

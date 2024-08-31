@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import './Layout.css';
 import { isMobile } from 'react-device-detect';
 import Images from '../../constants/Images';
 import SearchBar from '../General/SearchBar';
 import { fetchData, ProductCategory } from '../../api';
+import AuthContext from '../../hooks/AuthContext';
+import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
 
 const search = (term: string, dropdownValue?: string) => {
   // eslint-disable-next-line no-console
@@ -13,6 +15,7 @@ const search = (term: string, dropdownValue?: string) => {
 
 function Layout() {
   const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);
+  const { authResponse } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -46,6 +49,14 @@ function Layout() {
           <NavLink to="/" className="link">
             Contact
           </NavLink>
+          {authResponse ? (
+            <LayoutProfilePicture />
+          )
+            : (
+              <NavLink to="/auth/login" className="link">
+                Login
+              </NavLink>
+            )}
         </div>
       </div>
       <Outlet />

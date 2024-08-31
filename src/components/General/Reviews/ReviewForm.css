@@ -6,13 +6,23 @@
     margin-bottom: 10px;
 }
 
-.review-submit {
+.review-submit-enabled {
     cursor: pointer;
 }
 
-.rating {
+.review-submit-disabled {
+    cursor: not-allowed !important;
+}
+
+.rating-enabled {
     display: flex;
     align-items: center;
+}
+  
+.rating-disabled {
+    display: flex;
+    align-items: center;
+    pointer-events: none;
 }
 
 .star {

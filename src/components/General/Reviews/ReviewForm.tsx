@@ -6,10 +6,11 @@ import { InfoCircledIcon, StarFilledIcon, StarIcon } from '@radix-ui/react-icons
 import './ReviewForm.css';
 
 type Props = {
+  isUserLoggedIn: boolean,
   onReviewSubmitClicked: (content: string, rating: number) => void,
 };
 
-function ReviewForm({ onReviewSubmitClicked }: Props) {
+function ReviewForm({ isUserLoggedIn, onReviewSubmitClicked }: Props) {
   const [content, setContent] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
   const [calloutError, setCalloutError] = useState<string>('');
@@ -44,9 +45,10 @@ function ReviewForm({ onReviewSubmitClicked }: Props) {
           value={content}
           onChange={handleChange}
           size="2"
-          placeholder="Write your review here..."
+          disabled={!isUserLoggedIn}
+          placeholder={isUserLoggedIn ? 'Write your review here...' : 'You need to be logged in to submit a review.'}
         />
-        <div className="rating">
+        <div className={`rating-${isUserLoggedIn ? 'active' : 'disabled'}`}>
           <p style={{ marginRight: '10px' }}>Rating:</p>
           {Array.from({ length: 5 }, (_, i) => (
             i < rating ? <StarFilledIcon onClick={() => handleStarClick(i)} key={i} className="star" />
@@ -66,7 +68,14 @@ function ReviewForm({ onReviewSubmitClicked }: Props) {
           )}
         </Callout.Root>
       </Box>
-      <Button type="submit" color="purple" className="review-submit">Submit</Button>
+      <Button
+        disabled={!isUserLoggedIn}
+        type="submit"
+        color="purple"
+        className={`review-submit-${isUserLoggedIn ? 'active' : 'disabled'}`}
+      >
+        Submit
+      </Button>
     </form>
   );
 }

@@ -55,6 +55,11 @@ function ProductDetails() {
               {' '}
               $
             </p>
+            <p>
+              {productDetails.averageRating.toFixed(2)}
+              {' '}
+              average rating
+            </p>
             <p>{productDetails.category}</p>
             <p>{productDetails.description ?? 'No description available.'}</p>
             <Button color="purple" size="3" className="add-to-card-button">

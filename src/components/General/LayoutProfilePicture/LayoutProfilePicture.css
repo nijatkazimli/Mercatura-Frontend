@@ -1,0 +1,9 @@
+.layout-profile-picture {
+    margin-left: 20px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.layout-profile-picture:hover {
+    transform: scale(1.1);
+}

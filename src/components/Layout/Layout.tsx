@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import './Layout.css';
 import { isMobile } from 'react-device-detect';
+import { useDispatch } from 'react-redux';
 import Images from '../../constants/Images';
 import SearchBar from '../General/SearchBar';
 import { fetchData, ProductCategory } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
+import { getCarts } from '../../redux/actions';
 
 const search = (term: string, dropdownValue?: string) => {
   // eslint-disable-next-line no-console
@@ -16,6 +18,13 @@ const search = (term: string, dropdownValue?: string) => {
 function Layout() {
   const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);
   const { authResponse } = useContext(AuthContext);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authResponse) {
+      dispatch(getCarts(authResponse.id));
+    }
+  }, [dispatch, authResponse]);
 
   useEffect(() => {
     const fetchCategories = async () => {

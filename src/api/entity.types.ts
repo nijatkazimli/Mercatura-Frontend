@@ -25,3 +25,17 @@ export type AuthResponse = {
   id: string,
   token: string,
 };
+
+export type CartResponse = {
+  id: string,
+  userId: string,
+  productIds: string[],
+  totalValue: number,
+  paid: boolean,
+};
+
+export type IdResponse = {
+  id: string,
+};
+
+export type CartsResponse = Array<CartResponse>;

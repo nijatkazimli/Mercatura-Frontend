@@ -1,6 +1,7 @@
 import { Review } from '../api';
 
 /**
+ * @deprecated
  * Calculates the average rating from an array of reviews.
  * @param {Review[]} reviews - An array of review objects.
  * @returns {number} The average rating, or 0 if there are no reviews.

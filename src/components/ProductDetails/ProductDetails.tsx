@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './ProductDetails.css';
-import { Button } from '@radix-ui/themes';
+import { Button, DropdownMenu } from '@radix-ui/themes';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Images from '../../constants/Images';
 import ProductItem from '../General/Product/ProductItem';
 import Reviews from '../General/Reviews/Reviews';
 import { fetchData, Product } from '../../api';
+import { addToCart, addToNewCart } from '../../redux/actions';
+import { selectCarts } from '../../redux/selectors';
+import AuthContext from '../../hooks/AuthContext';
 
 function ProductDetails() {
   const { id } = useParams<{ id: string }>();
   const [productDetails, setProductDetails] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const carts = useSelector(selectCarts);
+  const { authResponse } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -35,6 +43,20 @@ function ProductDetails() {
 
     fetchDetails();
   }, [id]);
+
+  const onAddToCart = async (cartId: string) => {
+    if (id && productDetails) {
+      dispatch(addToCart({ cartId, productId: id, productValue: productDetails.price }));
+    }
+  };
+
+  const onAddToNewCart = async () => {
+    if (id && authResponse && productDetails) {
+      dispatch(addToNewCart({ userId: authResponse.id, productId: id, productValue: productDetails.price }));
+    }
+  };
+
+  const navigateToLoginIfNotLoggedIn = () => { if (!authResponse) { navigate('/auth/login'); } };
 
   if (loading) return <p>Loading product details...</p>;
   if (error) return <p>{error}</p>;
@@ -62,11 +84,35 @@ function ProductDetails() {
             </p>
             <p>{productDetails.category}</p>
             <p>{productDetails.description ?? 'No description available.'}</p>
-            <Button color="purple" size="3" className="add-to-card-button">
-              <PlusCircledIcon />
-              {' '}
-              Add to Cart
-            </Button>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger>
+                <Button color="purple" size="3" className="add-to-card-button" onClick={navigateToLoginIfNotLoggedIn}>
+                  <PlusCircledIcon />
+                  {' '}
+                  Add to Cart
+                </Button>
+              </DropdownMenu.Trigger>
+              {authResponse && (
+                <DropdownMenu.Content>
+                  {carts.map((cart, index) => (
+                    <DropdownMenu.Item
+                      key={cart.id}
+                      shortcut={`${cart.productIds.length.toString()} item${
+                        cart.productIds.length > 1 ? 's' : ''}`}
+                      onClick={() => onAddToCart(cart.id)}
+                    >
+                      Cart
+                      {' '}
+                      {index + 1}
+                    </DropdownMenu.Item>
+                  ))}
+                  {!!carts.length && <DropdownMenu.Separator />}
+                  <DropdownMenu.Item onClick={onAddToNewCart}>
+                    Add to new cart
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              )}
+            </DropdownMenu.Root>
           </div>
         )}
         <div className="reviews">

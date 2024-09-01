@@ -4,6 +4,7 @@ import Layout from './components/Layout/Layout';
 import Home from './components/Home/Home';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import { Authorization } from './components/Authorization';
+import Carts from './components/Cart/Carts';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
         element: <Authorization
           isLogin={false}
         />,
+      },
+      {
+        path: 'cart',
+        element: <Carts />,
       },
     ],
   },

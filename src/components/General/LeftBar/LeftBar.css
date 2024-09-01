@@ -6,9 +6,4 @@
     padding-right: 5px;
     background-color: #6e6e6e;
     color: whitesmoke;
-    transition: width 0.3s ease;
-}
-
-.leftBar:hover {
-    width: 280px;
 }

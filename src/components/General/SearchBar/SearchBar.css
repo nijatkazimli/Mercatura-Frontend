@@ -10,7 +10,6 @@
     cursor: pointer;
     background-color: #6B21B0;
     border: none;
-    padding: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     transition: background-color 0.3s ease;
@@ -21,8 +20,8 @@
 }
 
 .search-icon {
-    object-fit: contain;
     height: 100%;
+    transform: scale(0.7);
     filter: invert(96%) sepia(100%) saturate(6273%) hue-rotate(183deg) brightness(127%) contrast(92%);
 }
 

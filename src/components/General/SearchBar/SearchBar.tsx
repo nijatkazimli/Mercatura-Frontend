@@ -5,12 +5,12 @@ import styles from './SearchBar.style';
 import './SearchBar.css';
 
 type Props = {
-    placeholder?: string,
-    height?: number,
-    width?: number,
-    onSearch: (searchTerm: string, dropDownValue?: string) => void,
-    dropDownPlaceholder?: string,
-    dropDownItemValues?: string[],
+  placeholder?: string,
+  height?: number,
+  width?: number | 'auto',
+  onSearch: (searchTerm: string, dropDownValue?: string) => void,
+  dropDownPlaceholder?: string,
+  dropDownItemValues?: string[],
 };
 
 function SearchBar({

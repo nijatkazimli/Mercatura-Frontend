@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Flex } from '@radix-ui/themes';
+import { AlertDialog, Button, Flex } from '@radix-ui/themes';
 import { ArrowRightIcon, TrashIcon, CheckIcon } from '@radix-ui/react-icons';
 import { isMobile } from 'react-device-detect';
 import { CartUI } from './Carts';
@@ -55,10 +55,33 @@ function Cart({
           <ArrowRightIcon />
           Go to Cart
         </Button>
-        <Button color="red" style={{ fontFamily: 'Montserrat' }} onClick={() => onDeleteCart(id)}>
-          <TrashIcon />
-          Delete
-        </Button>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger>
+            <Button color="red" style={{ fontFamily: 'Montserrat' }}>
+              <TrashIcon />
+              Delete
+            </Button>
+          </AlertDialog.Trigger>
+          <AlertDialog.Content maxWidth="450px">
+            <AlertDialog.Title>Delete the cart</AlertDialog.Title>
+            <AlertDialog.Description size="2">
+              Are you sure? This cart will not be recoverable.
+            </AlertDialog.Description>
+            <Flex gap="3" mt="4" justify="end">
+              <AlertDialog.Cancel>
+                <Button variant="soft" color="gray">
+                  Cancel
+                </Button>
+              </AlertDialog.Cancel>
+              <AlertDialog.Action>
+                <Button variant="solid" color="red" onClick={() => onDeleteCart(id)}>
+                  Delete
+                </Button>
+              </AlertDialog.Action>
+            </Flex>
+
+          </AlertDialog.Content>
+        </AlertDialog.Root>
       </Flex>
     </Flex>
   );

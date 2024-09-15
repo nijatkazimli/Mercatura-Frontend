@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@radix-ui/themes';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import FlatList from '../General/FlatList/FlatList';
-import Cart from './Cart';
+import CartItem from './CartItem';
 import { createCart, deleteCart, payCart } from '../../redux/actions';
 import { selectCarts, selectErrorMessage } from '../../redux/selectors';
 import AuthContext from '../../hooks/AuthContext';
@@ -39,10 +39,8 @@ function Carts() {
     setLoading(false);
   }, [carts]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onGoToCart = (id: string) => {
-    navigate('/cart');
-    // navigate(`/cart/${id}`);
+    navigate(`/cart/${id}`);
   };
 
   const onPayCart = async (id: string) => {
@@ -67,7 +65,7 @@ function Carts() {
               ListEmptyComponent={renderListEmpty}
               data={cartsDetails}
               renderItem={({ item, index }) => (
-                <Cart {...item} index={index} onGoToCart={onGoToCart} onPayCart={onPayCart} onDeleteCart={onDeleteCart} />
+                <CartItem {...item} index={index} onGoToCart={onGoToCart} onPayCart={onPayCart} onDeleteCart={onDeleteCart} />
               )}
               keyExtractor={(item) => item.id}
             />

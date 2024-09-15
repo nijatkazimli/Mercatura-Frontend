@@ -1,16 +1,47 @@
 import {
+  all,
+  AllEffect,
   call, CallEffect, put, PutEffect, select, SelectEffect, takeEvery,
 } from 'redux-saga/effects';
 import {
   fetchData, CartResponse, postData, deleteData,
   patchData,
   IdResponse,
-} from '../../api';
+  Product,
+} from '../api';
 import {
-  Actions, ADD_TO_CART, ADD_TO_NEW_CART, CREATE_CART, DELETE_CART, GET_CARTS, PAY_CART,
-} from '../action.types';
-import { selectCarts } from '../selectors';
-import { setCarts, setError } from '../actions';
+  Actions, ADD_TO_CART, ADD_TO_NEW_CART, CREATE_CART, DELETE_CART, GET_CARTS, GET_PRODUTCS_BY_IDS, PAY_CART,
+} from './action.types';
+import { selectCarts, selectProducts } from './selectors';
+import { setCarts, setError, setProducts } from './actions';
+
+function* getProductsSaga(): Generator<CallEffect | PutEffect, void, Array<Product>> {
+  try {
+    const products = yield call(fetchData<Array<Product>>, '/product');
+    yield put(setProducts(products));
+  } catch (e) {
+    yield put(setError(e ? JSON.stringify(e) : 'Error fetching products'));
+  }
+}
+
+function* getProductsByIdsSaga(action: GET_PRODUTCS_BY_IDS):
+Generator<SelectEffect | AllEffect<CallEffect<Product>> | CallEffect | PutEffect, void, Array<Product>> {
+  try {
+    const productIdsToFetch = action.payload;
+    const existingProducts = yield select(selectProducts);
+    const existingProductsIds = existingProducts.map((p) => p.id);
+
+    const nonExistingProductsIds = productIdsToFetch.filter((id) => !existingProductsIds.includes(id));
+    if (nonExistingProductsIds?.length) {
+      const fetchedProducts: Array<Product> = yield all(
+        nonExistingProductsIds.map((id) => call(fetchData<Product>, `/product/${id}`)),
+      );
+      yield put(setProducts([...existingProducts, ...fetchedProducts]));
+    }
+  } catch (e) {
+    yield put(setError(e ? JSON.stringify(e) : 'Error fetching products by ids'));
+  }
+}
 
 function* getCartsSaga(action: GET_CARTS): Generator<CallEffect | PutEffect, void, Array<CartResponse>> {
   try {
@@ -101,6 +132,8 @@ function* payCartSaga(action: PAY_CART): Generator<CallEffect | SelectEffect | P
 }
 
 function* cartSaga() {
+  yield takeEvery(Actions.GET_PRODUTCS, getProductsSaga);
+  yield takeEvery(Actions.GET_PRODUTCS_BY_IDS, getProductsByIdsSaga);
   yield takeEvery(Actions.GET_CARTS, getCartsSaga);
   yield takeEvery(Actions.CREATE_CART, createCartSaga);
   yield takeEvery(Actions.DELETE_CART, deleteCartSaga);

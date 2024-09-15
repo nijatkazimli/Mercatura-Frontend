@@ -8,7 +8,7 @@ import SearchBar from '../General/SearchBar';
 import { fetchData, ProductCategory } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
-import { getCarts } from '../../redux/actions';
+import { getCarts, getProducts } from '../../redux/actions';
 
 const search = (term: string, dropdownValue?: string) => {
   // eslint-disable-next-line no-console
@@ -25,6 +25,10 @@ function Layout() {
       dispatch(getCarts(authResponse.id));
     }
   }, [dispatch, authResponse]);
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchCategories = async () => {

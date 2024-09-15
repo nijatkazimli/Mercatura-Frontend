@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 type StylesType = {
-    form: (height: number, width: number | 'auto') => CSSProperties,
+  form: (height: number, width: number | 'auto') => CSSProperties,
 }
 
 const styles: StylesType = {

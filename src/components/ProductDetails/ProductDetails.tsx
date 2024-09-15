@@ -78,7 +78,7 @@ function ProductDetails() {
               $
             </p>
             <p>
-              {productDetails.averageRating.toFixed(2)}
+              {productDetails.rating}
               {' '}
               average rating
             </p>

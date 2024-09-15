@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import {
+  NavLink, Outlet, useLocation, useNavigate,
+} from 'react-router-dom';
 import './Layout.css';
 import { isMobile } from 'react-device-detect';
 import { useDispatch } from 'react-redux';
@@ -7,18 +9,34 @@ import Images from '../../constants/Images';
 import SearchBar from '../General/SearchBar';
 import { fetchData, ProductCategory } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
+import SearchContext from '../../hooks/SearchContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
 import { getCarts, getProducts } from '../../redux/actions';
-
-const search = (term: string, dropdownValue?: string) => {
-  // eslint-disable-next-line no-console
-  console.log(term + dropdownValue);
-};
 
 function Layout() {
   const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);
   const { authResponse } = useContext(AuthContext);
+  const { setQuery } = useContext(SearchContext);
+  const pageQuery = useLocation().search;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const extractCategoryFromQuery = (query: string) => {
+    if (!query) { return undefined; }
+    const searchParams = new URLSearchParams(query);
+    return searchParams.get('category') ?? undefined;
+  };
+
+  const search = (term?: string, dropdownValue?: string) => {
+    const searchParams = new URLSearchParams();
+    if (term) {
+      searchParams.set('name', term);
+    }
+    if (dropdownValue) {
+      searchParams.set('category', dropdownValue);
+    }
+    navigate(`?${searchParams.toString()}`);
+  };
 
   useEffect(() => {
     if (authResponse) {
@@ -50,6 +68,7 @@ function Layout() {
           placeholder="Search products"
           onSearch={search}
           dropDownPlaceholder="Category"
+          dropDownValue={extractCategoryFromQuery(pageQuery)}
           dropDownItemValues={productCategories.map((category) => category.name)}
         />
         <div className="link-container">

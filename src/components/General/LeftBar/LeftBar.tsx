@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Select, Slider } from '@radix-ui/themes';
+import {
+  Button, Flex, Select, Slider,
+} from '@radix-ui/themes';
 import './LeftBar.css';
 import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
+import { useNavigate } from 'react-router-dom';
 import SortByOptions from '../../../constants/SortByOptions';
 import { fetchData, MinMaxResponse } from '../../../api';
 import { roundToNearestTwoPlaces } from '../../../common/utils';
@@ -14,6 +17,15 @@ function LeftBar() {
 
   const [ratingRange, setRatingRange] = useState<number[]>([0, 5]);
   const [ratingRangePercentages, setRatingRangePercentages] = useState<number[]>([0, 100]);
+
+  const navigate = useNavigate();
+
+  const onResetClick = () => {
+    setSelectedSortOption('NEW_TO_OLD');
+    setPriceRangePercentages([0, 100]);
+    setRatingRangePercentages([0, 100]);
+    navigate('/');
+  };
 
   useEffect(() => {
     const fetchMinMaxPriceRange = async () => {
@@ -112,16 +124,22 @@ function LeftBar() {
             Min –
             <br />
             {ratingRange[0]}
+            {' '}
             <StarIcon />
           </p>
           <p style={{ textAlign: 'center' }}>
             Max –
             <br />
             {ratingRange[1]}
+            {' '}
             <StarFilledIcon />
           </p>
         </Flex>
       </div>
+      <Flex direction="row" justify="between">
+        <Button color="purple" style={{ width: 100 }}>Apply</Button>
+        <Button onClick={onResetClick} color="purple" variant="surface" style={{ width: 100 }}>Reset</Button>
+      </Flex>
     </Flex>
   );
 }

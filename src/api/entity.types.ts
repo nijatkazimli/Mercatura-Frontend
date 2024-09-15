@@ -7,7 +7,7 @@ export type Product = {
   id: string,
   name: string,
   description?: string | null,
-  averageRating: number,
+  rating: number,
   price: number,
   image?: string | null,
   category: string,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from '@radix-ui/themes';
 import Images from '../../../constants/Images';
 import styles from './SearchBar.style';
@@ -8,16 +8,28 @@ type Props = {
   placeholder?: string,
   height?: number,
   width?: number | 'auto',
-  onSearch: (searchTerm: string, dropDownValue?: string) => void,
+  onSearch: (searchTerm?: string, dropDownValue?: string) => void,
+  dropDownValue?: string,
   dropDownPlaceholder?: string,
   dropDownItemValues?: string[],
 };
 
 function SearchBar({
-  placeholder = 'Search', height = 30, width = 200, onSearch, dropDownPlaceholder = 'Select', dropDownItemValues,
+  placeholder = 'Search',
+  height = 30, width = 200,
+  onSearch,
+  dropDownValue,
+  dropDownPlaceholder = 'Select',
+  dropDownItemValues,
 }: Props) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [dropdownValue, setDropdownValue] = useState<string>();
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [dropdownValue, setDropdownValue] = useState<string | undefined>(dropDownValue);
+
+  useEffect(() => {
+    if (dropDownValue) {
+      setDropdownValue(dropDownValue);
+    }
+  }, [dropDownValue]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -38,7 +50,6 @@ function SearchBar({
         onChange={handleChange}
         placeholder={`${placeholder}...`}
         className="search-bar"
-        required
       />
       {dropDownItemValues && (
         <Select.Root value={dropdownValue} onValueChange={setDropdownValue}>

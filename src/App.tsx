@@ -5,13 +5,16 @@ import { Provider } from 'react-redux';
 import router from './router';
 import UserProvider from './hooks/AuthProvider';
 import store from './redux/store';
+import SearchProvider from './hooks/SearchProvider';
 
 function App() {
   return (
     <Theme>
       <Provider store={store}>
         <UserProvider>
-          <RouterProvider router={router} />
+          <SearchProvider>
+            <RouterProvider router={router} />
+          </SearchProvider>
         </UserProvider>
       </Provider>
     </Theme>

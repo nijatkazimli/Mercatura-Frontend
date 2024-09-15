@@ -38,4 +38,9 @@ export type IdResponse = {
   id: string,
 };
 
+export type MinMaxResponse = {
+  min: number,
+  max: number,
+};
+
 export type CartsResponse = Array<CartResponse>;

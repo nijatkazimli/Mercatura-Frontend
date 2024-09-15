@@ -50,3 +50,15 @@ export const getRandomColor = (): Color => {
 
   return colors[randomIndex];
 };
+
+/**
+ * Rounds a number to two decimal places.
+ *
+ * This function takes a numerical value and rounds it to the nearest two decimal places.
+ * It performs this by multiplying the number by 100, rounding it to the nearest integer,
+ * and then dividing by 100 to restore the decimal point to its original position.
+ *
+ * @param {number} num - The number to be rounded.
+ * @returns {number} The input number rounded to two decimal places.
+ */
+export const roundToNearestTwoPlaces = (num: number): number => Math.round(num * 100) / 100;

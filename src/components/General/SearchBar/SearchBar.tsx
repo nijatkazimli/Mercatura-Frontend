@@ -43,7 +43,7 @@ function SearchBar({
       {dropDownItemValues && (
         <Select.Root value={dropdownValue} onValueChange={setDropdownValue}>
           <Select.Trigger placeholder={dropDownPlaceholder} radius="none" className="dropdown-trigger" />
-          <Select.Content>
+          <Select.Content color="purple">
             <Select.Group>
               {dropDownItemValues.map((value) => (
                 <Select.Item key={value} value={value}>{value}</Select.Item>

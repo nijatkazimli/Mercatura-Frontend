@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { debounce } from 'lodash';
 
 const useWindowDimensions = () => {

@@ -1,9 +1,12 @@
 import React from 'react';
-import { AlertDialog, Button, Flex } from '@radix-ui/themes';
+import {
+  AlertDialog, Badge, Button, Flex,
+} from '@radix-ui/themes';
 import { ArrowRightIcon, TrashIcon, CheckIcon } from '@radix-ui/react-icons';
 import { isMobile } from 'react-device-detect';
 import { CartUI } from './Carts';
 import './CartItem.css';
+import { Color } from '../../common/utils';
 
 type ExtraProps = {
   index: number;
@@ -16,14 +19,14 @@ function CartItem({
   id, numberOfItems, totalValue, paid, onDeleteCart, onGoToCart, onPayCart, index,
 }: CartUI & ExtraProps) {
   let status = 'Unpaid';
-  let color = 'Red';
+  let color = 'red';
   if (paid) {
     status = 'Paid';
-    color = 'SeaGreen';
+    color = 'green';
   }
   if (numberOfItems === 0) {
     status = 'Empty';
-    color = 'Grey';
+    color = 'gray';
   }
 
   return (
@@ -43,7 +46,8 @@ function CartItem({
       <Flex direction={isMobile ? 'column' : 'row'} align="center" style={{ flex: 1 }}>
         <p style={{ flex: 1, textAlign: 'left' }}>{`${numberOfItems} item${numberOfItems > 1 ? 's' : ''}`}</p>
         <p style={{ flex: 1, textAlign: 'center' }}>{`${totalValue} $`}</p>
-        <p style={{ flex: 1, textAlign: 'right', color: `${color}` }}>{status}</p>
+        <Badge color={color as Color} variant="solid" size="2" radius="full">{status}</Badge>
+        {/* <p style={{ flex: 1, textAlign: 'right', color: `${color}` }}>{status}</p> */}
       </Flex>
       <div style={{ width: isMobile ? '10px' : '500px' }} />
       <Flex direction={isMobile ? 'column' : 'row'} align="center" gap="8px">

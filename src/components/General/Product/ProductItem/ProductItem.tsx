@@ -40,7 +40,7 @@ function ProductItem({
         alt={imageSrc ? Images.productImage.alt : Images.noProductImage.alt}
       />
       <p>{name}</p>
-      <p>
+      <p style={{ fontFamily: 'system-ui' }}>
         {price}
         {' '}
         $

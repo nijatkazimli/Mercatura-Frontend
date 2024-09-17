@@ -43,7 +43,8 @@
         "indent": ["error", 2],
         "react/require-default-props": "off",
         "react/button-has-type": "off",
-        "jsx-a11y/label-has-associated-control": "off"
+        "jsx-a11y/label-has-associated-control": "off",
+        "import/no-extraneous-dependencies": "off"
     },
     "overrides": [
         {
@@ -58,7 +59,8 @@
             },
             "rules": {
                 "import/prefer-default-export": "off",
-                "jsx-a11y/label-has-associated-control": "off"
+                "jsx-a11y/label-has-associated-control": "off",
+                "import/no-extraneous-dependencies": "off"
             }
         }
     ]

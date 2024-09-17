@@ -7,6 +7,7 @@ import { QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import { postData, AuthResponse } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
+import useWindowDimensions from '../../hooks/WindowDimensions';
 
 type Props = {
   isLogin: boolean,
@@ -20,6 +21,9 @@ function LoginPage({ isLogin }: Props) {
   const [error, setError] = useState<string | null>(null);
   const { setAuthResponse } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { height } = useWindowDimensions();
+  // TODO: add it to global constants
+  const layoutHeight = 80;
 
   const onAuthSubmitClicked = async () => {
     try {
@@ -47,7 +51,7 @@ function LoginPage({ isLogin }: Props) {
   };
 
   return (
-    <Flex direction="column" display="flex" className="login-page-container">
+    <Flex direction="column" display="flex" className="login-page-container" style={{ height: height - layoutHeight }}>
       <Box maxWidth="400px" className="login-form">
         {error && <Text color="red" mb="10px">{error}</Text>}
         <form onSubmit={handleSubmit}>

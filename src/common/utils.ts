@@ -24,7 +24,7 @@ export const getInitials = (fullName: string): string => {
   return initials;
 };
 
-type Color =
+export type Color =
   | 'gray' | 'gold' | 'bronze' | 'brown' | 'yellow'
   | 'amber' | 'orange' | 'tomato' | 'red' | 'ruby'
   | 'crimson' | 'pink' | 'plum' | 'purple' | 'violet'

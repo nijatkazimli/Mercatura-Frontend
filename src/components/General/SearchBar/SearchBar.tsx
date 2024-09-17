@@ -6,6 +6,7 @@ import './SearchBar.css';
 
 type Props = {
   placeholder?: string,
+  term?: string,
   height?: number,
   width?: number | 'auto',
   onSearch: (searchTerm?: string, dropDownValue?: string) => void,
@@ -16,14 +17,15 @@ type Props = {
 
 function SearchBar({
   placeholder = 'Search',
+  term,
   height = 30, width = 200,
   onSearch,
   dropDownValue,
   dropDownPlaceholder = 'Select',
   dropDownItemValues,
 }: Props) {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [dropdownValue, setDropdownValue] = useState<string | undefined>(dropDownValue);
+  const [searchTerm, setSearchTerm] = useState<string>(term ?? '');
+  const [dropdownValue, setDropdownValue] = useState<string | undefined>(dropDownValue ?? dropDownItemValues?.at(0));
 
   useEffect(() => {
     if (dropDownValue) {
@@ -56,8 +58,11 @@ function SearchBar({
           <Select.Trigger placeholder={dropDownPlaceholder} radius="none" className="dropdown-trigger" />
           <Select.Content color="purple">
             <Select.Group>
-              {dropDownItemValues.map((value) => (
-                <Select.Item key={value} value={value}>{value}</Select.Item>
+              {dropDownItemValues.map((value, index) => (
+                <React.Fragment key={value}>
+                  <Select.Item value={value}>{value}</Select.Item>
+                  {index === 0 && <Select.Separator />}
+                </React.Fragment>
               ))}
             </Select.Group>
           </Select.Content>

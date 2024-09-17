@@ -1,0 +1,26 @@
+import { useState, useEffect } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { debounce } from 'lodash';
+
+const useWindowDimensions = () => {
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = debounce(() => {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    }, 100);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      handleResize.cancel();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return size;
+};
+
+export default useWindowDimensions;

@@ -14,7 +14,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const value = useMemo(() => ({ query, setQuery }), [query, setQuery]);
 
   useEffect(() => {
-    console.log(query);
+    // console.log(query);
   }, [query]);
 
   return (

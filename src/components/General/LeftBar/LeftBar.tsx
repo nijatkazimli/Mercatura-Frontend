@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import SortByOptions from '../../../constants/SortByOptions';
 import { fetchData, MinMaxResponse } from '../../../api';
 import { roundToNearestTwoPlaces } from '../../../common/utils';
+import useWindowDimensions from '../../../hooks/WindowDimensions';
 
 function LeftBar() {
   const [selectedSortOption, setSelectedSortOption] = useState<string>('NEW_TO_OLD');
@@ -17,6 +18,9 @@ function LeftBar() {
 
   const [ratingRange, setRatingRange] = useState<number[]>([0, 5]);
   const [ratingRangePercentages, setRatingRangePercentages] = useState<number[]>([0, 100]);
+  const layoutHeight = 80;
+  const upperPadding = 10;
+  const { height } = useWindowDimensions();
 
   const navigate = useNavigate();
 
@@ -62,7 +66,12 @@ function LeftBar() {
   }, [ratingRangePercentages]);
 
   return (
-    <Flex className="leftBar" direction="column" gap="7" style={{ padding: '20px' }}>
+    <Flex
+      className="leftBar"
+      direction="column"
+      gap="7"
+      style={{ padding: `${2 * upperPadding}px`, minHeight: '500px', height: height - layoutHeight - upperPadding }}
+    >
       <div>
         <p style={{ margin: '2px' }}>Sort By:</p>
         <Select.Root value={selectedSortOption} onValueChange={setSelectedSortOption}>

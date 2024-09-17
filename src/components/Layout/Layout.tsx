@@ -14,7 +14,7 @@ import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfileP
 import { getCarts, getProducts } from '../../redux/actions';
 
 function Layout() {
-  const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);
+  const [productCategories, setProductCategories] = useState<ProductCategory[]>([{ id: '', name: 'All Categories' }]);
   const { authResponse } = useContext(AuthContext);
   const { setQuery } = useContext(SearchContext);
   const pageQuery = useLocation().search;
@@ -27,15 +27,21 @@ function Layout() {
     return searchParams.get('category') ?? undefined;
   };
 
+  const extractNameFromQuery = (query: string) => {
+    if (!query) { return undefined; }
+    const searchParams = new URLSearchParams(query);
+    return searchParams.get('name') ?? undefined;
+  };
+
   const search = (term?: string, dropdownValue?: string) => {
     const searchParams = new URLSearchParams();
     if (term) {
       searchParams.set('name', term);
     }
-    if (dropdownValue) {
+    if (dropdownValue && dropdownValue !== 'All Categories') {
       searchParams.set('category', dropdownValue);
     }
-    navigate(`?${searchParams.toString()}`);
+    navigate(`/?${searchParams.toString()}`);
   };
 
   useEffect(() => {
@@ -51,7 +57,7 @@ function Layout() {
   useEffect(() => {
     const fetchCategories = async () => {
       const productCategories = await fetchData<ProductCategory[]>('/category');
-      setProductCategories(productCategories);
+      setProductCategories([{ id: '', name: 'All Categories' }, ...productCategories]);
     };
     fetchCategories();
   }, []);
@@ -59,10 +65,12 @@ function Layout() {
   return (
     <div>
       <div className="navbar">
-        <NavLink to="/" className="logo-link">
+        <NavLink onClick={() => setQuery(null)} to="/" className="logo-link">
           <img src={Images.logo.src} alt={Images.logo.alt} className="logo" />
         </NavLink>
         <SearchBar
+          key={pageQuery}
+          term={extractNameFromQuery(pageQuery)}
           height={40}
           width={isMobile ? 400 : 450}
           placeholder="Search products"

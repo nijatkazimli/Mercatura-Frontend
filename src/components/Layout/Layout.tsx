@@ -9,37 +9,28 @@ import Images from '../../constants/Images';
 import SearchBar from '../General/SearchBar';
 import { fetchData, ProductCategory } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
-import SearchContext from '../../hooks/SearchContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
 import { getCarts, getProducts } from '../../redux/actions';
+import { extractParamFromQuery } from '../../common/utils';
 
 function Layout() {
   const [productCategories, setProductCategories] = useState<ProductCategory[]>([{ id: '', name: 'All Categories' }]);
   const { authResponse } = useContext(AuthContext);
-  const { setQuery } = useContext(SearchContext);
   const pageQuery = useLocation().search;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const extractCategoryFromQuery = (query: string) => {
-    if (!query) { return undefined; }
-    const searchParams = new URLSearchParams(query);
-    return searchParams.get('category') ?? undefined;
-  };
-
-  const extractNameFromQuery = (query: string) => {
-    if (!query) { return undefined; }
-    const searchParams = new URLSearchParams(query);
-    return searchParams.get('name') ?? undefined;
-  };
-
   const search = (term?: string, dropdownValue?: string) => {
-    const searchParams = new URLSearchParams();
+    const searchParams = new URLSearchParams(pageQuery);
     if (term) {
       searchParams.set('name', term);
+    } else {
+      searchParams.delete('name');
     }
     if (dropdownValue && dropdownValue !== 'All Categories') {
       searchParams.set('category', dropdownValue);
+    } else {
+      searchParams.delete('category');
     }
     navigate(`/?${searchParams.toString()}`);
   };
@@ -65,18 +56,18 @@ function Layout() {
   return (
     <div>
       <div className="navbar">
-        <NavLink onClick={() => setQuery(null)} to="/" className="logo-link">
+        <NavLink to="/" className="logo-link">
           <img src={Images.logo.src} alt={Images.logo.alt} className="logo" />
         </NavLink>
         <SearchBar
           key={pageQuery}
-          term={extractNameFromQuery(pageQuery)}
+          term={extractParamFromQuery('name', pageQuery)}
           height={40}
           width={isMobile ? 400 : 450}
           placeholder="Search products"
           onSearch={search}
           dropDownPlaceholder="Category"
-          dropDownValue={extractCategoryFromQuery(pageQuery)}
+          dropDownValue={extractParamFromQuery('category', pageQuery)}
           dropDownItemValues={productCategories.map((category) => category.name)}
         />
         <div className="link-container">

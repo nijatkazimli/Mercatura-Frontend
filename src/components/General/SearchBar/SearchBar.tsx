@@ -13,6 +13,7 @@ type Props = {
   dropDownValue?: string,
   dropDownPlaceholder?: string,
   dropDownItemValues?: string[],
+  capitalizeFirstLetter?: boolean,
 };
 
 function SearchBar({
@@ -23,6 +24,7 @@ function SearchBar({
   dropDownValue,
   dropDownPlaceholder = 'Select',
   dropDownItemValues,
+  capitalizeFirstLetter = false,
 }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>(term ?? '');
   const [dropdownValue, setDropdownValue] = useState<string | undefined>(dropDownValue ?? dropDownItemValues?.at(0));
@@ -35,8 +37,8 @@ function SearchBar({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    const capitalizedTerm = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
-    setSearchTerm(capitalizedTerm);
+    const term = capitalizeFirstLetter ? inputValue.charAt(0).toUpperCase() + inputValue.slice(1) : inputValue;
+    setSearchTerm(term);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

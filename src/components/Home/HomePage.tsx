@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './HomePage.css';
 import { isMobile } from 'react-device-detect';
 import { useSelector } from 'react-redux';
@@ -7,17 +7,12 @@ import LeftBar from '../General/LeftBar';
 import ProductGrid from '../General/Product/ProductGrid';
 import { fetchData, Product } from '../../api';
 import { selectProducts } from '../../redux/selectors';
-import SearchContext from '../../hooks/SearchContext';
 
 function HomePage() {
   const allProducts = useSelector(selectProducts);
-  const { query, setQuery } = useContext(SearchContext);
   const [products, setProducts] = useState<Array<Product>>(allProducts);
 
   const pageQuery = useLocation().search;
-  useEffect(() => {
-    setQuery(pageQuery);
-  }, [pageQuery]);
 
   useEffect(() => {
     const fetchFilteredProducts = async (query: string) => {
@@ -30,8 +25,8 @@ function HomePage() {
       }
     };
 
-    if (!query) { setProducts(allProducts); } else { fetchFilteredProducts(query); }
-  }, [allProducts, query]);
+    if (!pageQuery) { setProducts(allProducts); } else { fetchFilteredProducts(pageQuery); }
+  }, [allProducts, pageQuery]);
 
   return (
     <div className="layout">

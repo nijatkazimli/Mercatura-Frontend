@@ -62,3 +62,22 @@ export const getRandomColor = (): Color => {
  * @returns {number} The input number rounded to two decimal places.
  */
 export const roundToNearestTwoPlaces = (num: number): number => Math.round(num * 100) / 100;
+
+/**
+ * Extracts a parameter value from a query string.
+ *
+ * This function takes a key and an optional query string, then attempts to
+ * extract the value associated with the provided key from the query string.
+ * If the query string is null or undefined, the function returns `undefined`.
+ * If the key is found, the corresponding value is returned; otherwise,
+ * `undefined` is returned.
+ *
+ * @param {string} key - The key for which to retrieve the value.
+ * @param {string | null} [pageQuery] - The query string to extract the parameter from.
+ * @returns {string | undefined} The value associated with the key, or `undefined` if not found.
+ */
+export const extractParamFromQuery = (key: string, pageQuery?: string | null) => {
+  if (!pageQuery) { return undefined; }
+  const searchParams = new URLSearchParams(pageQuery);
+  return searchParams.get(key) ?? undefined;
+};

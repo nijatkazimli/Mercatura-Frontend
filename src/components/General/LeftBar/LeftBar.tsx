@@ -1,50 +1,117 @@
 import React, { useEffect, useState } from 'react';
 import {
   Button, Flex, Select, Slider,
+  Spinner,
 } from '@radix-ui/themes';
 import './LeftBar.css';
 import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SortByOptions from '../../../constants/SortByOptions';
 import { fetchData, MinMaxResponse } from '../../../api';
-import { roundToNearestTwoPlaces } from '../../../common/utils';
+import { extractParamFromQuery, roundToNearestTwoPlaces } from '../../../common/utils';
 import useWindowDimensions from '../../../hooks/WindowDimensions';
 
 function LeftBar() {
   const [selectedSortOption, setSelectedSortOption] = useState<string>('NEW_TO_OLD');
+
   const [initialPriceRange, setInitialPriceRange] = useState<number[]>([0, 100]);
+  const [isInitialPriceRangeLoaded, setIsInitialPriceRangeLoaded] = useState<boolean>(false);
   const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
   const [priceRangePercentages, setPriceRangePercentages] = useState<number[]>([0, 100]);
 
   const [ratingRange, setRatingRange] = useState<number[]>([0, 5]);
   const [ratingRangePercentages, setRatingRangePercentages] = useState<number[]>([0, 100]);
-  const layoutHeight = 80;
-  const upperPadding = 10;
-  const { height } = useWindowDimensions();
 
+  const { height } = useWindowDimensions();
+  const pageQuery = useLocation().search;
   const navigate = useNavigate();
 
-  const onResetClick = () => {
-    setSelectedSortOption('NEW_TO_OLD');
-    setPriceRangePercentages([0, 100]);
-    setRatingRangePercentages([0, 100]);
-    navigate('/');
-  };
+  const layoutHeight = 80;
+  const upperPadding = 10;
 
   useEffect(() => {
-    const fetchMinMaxPriceRange = async () => {
+    (async () => {
       try {
         const range = await fetchData<MinMaxResponse>('/product/priceRange');
         const rangeArr = [range.min, range.max];
         setInitialPriceRange(rangeArr);
         setPriceRange(rangeArr);
+        setIsInitialPriceRangeLoaded(true);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch minimum/maximum price range');
       }
-    };
-    fetchMinMaxPriceRange();
+    })();
   }, []);
+
+  useEffect(() => {
+    const minPrice = Number(extractParamFromQuery('minPrice', pageQuery));
+    const maxPrice = Number(extractParamFromQuery('maxPrice', pageQuery));
+    const minRating = Number(extractParamFromQuery('minRating', pageQuery));
+    const maxRating = Number(extractParamFromQuery('maxRating', pageQuery));
+    const sortBy = extractParamFromQuery('sortBy', pageQuery);
+
+    const diff = initialPriceRange[1] - initialPriceRange[0];
+
+    if (!Number.isNaN(minPrice)) {
+      const minPercentage = ((minPrice - initialPriceRange[0]) / diff) * 100;
+      setPriceRangePercentages((prev) => {
+        if (minPercentage !== prev[0]) {
+          return [minPercentage, prev[1]];
+        }
+        return prev;
+      });
+    } else {
+      setPriceRangePercentages((prev) => [0, prev[1]]);
+    }
+
+    if (!Number.isNaN(maxPrice)) {
+      const maxPercentage = 100 - ((initialPriceRange[1] - maxPrice) / diff) * 100;
+      setPriceRangePercentages((prev) => {
+        if (maxPercentage !== prev[1]) {
+          return [prev[0], maxPercentage];
+        }
+        return prev;
+      });
+    } else {
+      setPriceRangePercentages((prev) => [prev[0], 100]);
+    }
+
+    if (!Number.isNaN(minRating)) {
+      const minPercentage = (minRating / 5) * 100;
+      setRatingRangePercentages((prev) => {
+        if (minPercentage !== prev[0]) {
+          return [minPercentage, prev[1]];
+        }
+        return prev;
+      });
+    } else {
+      setRatingRangePercentages((prev) => [0, prev[1]]);
+    }
+
+    if (!Number.isNaN(maxRating)) {
+      const maxPercentage = (maxRating / 5) * 100;
+      setRatingRangePercentages((prev) => {
+        if (maxPercentage !== prev[1]) {
+          return [prev[0], maxPercentage];
+        }
+        return prev;
+      });
+    } else {
+      setRatingRangePercentages((prev) => [prev[0], 100]);
+    }
+
+    if (sortBy) {
+      setSelectedSortOption((prevSort) => {
+        if (sortBy !== prevSort) {
+          return sortBy;
+        }
+        return prevSort;
+      });
+    } else {
+      setSelectedSortOption('NEW_TO_OLD');
+    }
+  }, [pageQuery, initialPriceRange]);
 
   useEffect(() => {
     if (priceRange.length === 2 && priceRangePercentages.length === 2) {
@@ -54,7 +121,7 @@ function LeftBar() {
       const newPriceRange = [newMin, newMax];
       setPriceRange(newPriceRange);
     }
-  }, [priceRangePercentages]);
+  }, [initialPriceRange, priceRangePercentages]);
 
   useEffect(() => {
     if (ratingRange.length === 2 && ratingRangePercentages.length === 2) {
@@ -64,6 +131,53 @@ function LeftBar() {
       setRatingRange(newRatingRange);
     }
   }, [ratingRangePercentages]);
+
+  const onApplyClick = () => {
+    const searchParams = new URLSearchParams(pageQuery);
+    if (priceRangePercentages[0] !== 0) {
+      searchParams.set('minPrice', priceRange[0].toString());
+    } else {
+      searchParams.delete('minPrice');
+    }
+    if (priceRangePercentages[1] !== 100) {
+      searchParams.set('maxPrice', priceRange[1].toString());
+    } else {
+      searchParams.delete('maxPrice');
+    }
+    if (ratingRangePercentages[0] !== 0) {
+      searchParams.set('minRating', ratingRange[0].toString());
+    } else {
+      searchParams.delete('minRating');
+    }
+    if (ratingRangePercentages[1] !== 100) {
+      searchParams.set('maxRating', ratingRange[1].toString());
+    } else {
+      searchParams.delete('maxRating');
+    }
+    if (selectedSortOption !== 'NEW_TO_OLD') {
+      searchParams.set('sortBy', selectedSortOption);
+    } else {
+      searchParams.delete('sortBy');
+    }
+    navigate(`/?${searchParams.toString()}`);
+  };
+
+  const onResetClick = () => {
+    if (priceRangePercentages[0] !== 0 || priceRangePercentages[1] !== 100
+      || ratingRangePercentages[0] !== 0 || ratingRangePercentages[1] !== 100
+      || selectedSortOption !== 'NEW_TO_OLD'
+    ) {
+      setPriceRangePercentages([0, 100]);
+      setRatingRangePercentages([0, 100]);
+      setSelectedSortOption('NEW_TO_OLD');
+      const searchParams = new URLSearchParams();
+      const name = extractParamFromQuery('name', pageQuery);
+      const category = extractParamFromQuery('category', pageQuery);
+      if (name) { searchParams.set('name', name); }
+      if (category) { searchParams.set('category', category); }
+      navigate(`/?${searchParams.toString()}`);
+    }
+  };
 
   return (
     <Flex
@@ -75,7 +189,7 @@ function LeftBar() {
       <div>
         <p style={{ margin: '2px' }}>Sort By:</p>
         <Select.Root value={selectedSortOption} onValueChange={setSelectedSortOption}>
-          <Select.Trigger placeholder="Sort By:" radius="none" />
+          <Select.Trigger placeholder="Sort By:" />
           <Select.Content color="purple">
             <Select.Group>
               {Object.entries(SortByOptions).map(([key, label]) => (
@@ -100,20 +214,20 @@ function LeftBar() {
           color="purple"
         />
         <Flex direction="row" align="center" justify="between" gap="4">
-          <p style={{ textAlign: 'center' }}>
-            Min –
-            <br />
-            {priceRange[0]}
-            {' '}
-            $
-          </p>
-          <p style={{ textAlign: 'center' }}>
-            Max –
-            <br />
-            {priceRange[1]}
-            {' '}
-            $
-          </p>
+          <Spinner loading={!isInitialPriceRangeLoaded} size="3">
+            <p style={{ textAlign: 'center' }}>
+              Min –
+              <br />
+              {`${priceRange[0]} $`}
+            </p>
+          </Spinner>
+          <Spinner loading={!isInitialPriceRangeLoaded} size="3">
+            <p style={{ textAlign: 'center' }}>
+              Max –
+              <br />
+              {`${priceRange[1]} $`}
+            </p>
+          </Spinner>
         </Flex>
       </div>
       <div>
@@ -146,8 +260,21 @@ function LeftBar() {
         </Flex>
       </div>
       <Flex direction="row" justify="between">
-        <Button color="purple" style={{ width: 100 }}>Apply</Button>
-        <Button onClick={onResetClick} color="purple" variant="surface" style={{ width: 100 }}>Reset</Button>
+        <Button
+          onClick={onApplyClick}
+          color="purple"
+          style={{ width: 100, fontFamily: 'Montserrat' }}
+        >
+          Apply
+        </Button>
+        <Button
+          onClick={onResetClick}
+          color="purple"
+          variant="surface"
+          style={{ width: 100, backgroundColor: 'white', fontFamily: 'Montserrat' }}
+        >
+          Reset
+        </Button>
       </Flex>
     </Flex>
   );

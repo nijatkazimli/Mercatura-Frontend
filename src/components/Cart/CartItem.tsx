@@ -51,7 +51,7 @@ function CartItem({
           <CheckIcon />
           Pay
         </Button>
-        <Button className="button" color="purple" onClick={() => onGoToCart(id)}>
+        <Button className="button" color="purple" onClick={() => onGoToCart(id)} style={{ visibility: numberOfItems > 0 ? 'visible' : 'hidden' }}>
           <ArrowRightIcon />
           See Cart Items
         </Button>

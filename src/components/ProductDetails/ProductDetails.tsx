@@ -10,13 +10,15 @@ import ProductItem from '../General/Product/ProductItem';
 import Reviews from '../General/Reviews/Reviews';
 import { fetchData, Product } from '../../api';
 import { addToCart, addToNewCart } from '../../redux/actions';
-import { selectCarts } from '../../redux/selectors';
+import { selectCarts, selectProductsByCategory } from '../../redux/selectors';
 import AuthContext from '../../hooks/AuthContext';
 import { roundToNearestTwoPlaces } from '../../common/utils';
 
 function ProductDetails() {
   const { id } = useParams<{ id: string }>();
   const [productDetails, setProductDetails] = useState<Product | null>(null);
+  const productsOfSameCategory = useSelector(selectProductsByCategory(productDetails?.category))
+    .filter((product) => product.id !== id).slice(0, 5);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const carts = useSelector(selectCarts);
@@ -137,8 +139,14 @@ function ProductDetails() {
       </div>
       <div>
         <p>Also see</p>
-        <ProductItem id="1" name="Test" price={10} />
-        <ProductItem id="2" name="Test2" price={30} />
+        {productsOfSameCategory.map((product) => (
+          <ProductItem
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            price={product.price}
+          />
+        ))}
       </div>
     </div>
   );

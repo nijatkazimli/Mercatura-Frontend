@@ -1,4 +1,4 @@
-import { Product, CartResponse } from '../api';
+import { CartResponse, ProductsResponse } from '../api';
 
 export enum Actions {
   GET_PRODUTCS = 'GET_PRODUCTS',
@@ -11,7 +11,6 @@ export enum Actions {
   CREATE_CART = 'CREATE_CART',
   PAY_CART = 'PAY_CART',
   DELETE_CART = 'DELETE_CART',
-  SET_ERROR = 'SET_ERROR',
 }
 
 export type ActionWithoutPayload<T> = {
@@ -35,7 +34,7 @@ export type AddToNewCartPayload = {
 
 export type GET_PRODUCTS = ActionWithoutPayload<Actions.GET_PRODUTCS>;
 export type GET_PRODUTCS_BY_IDS = ActionWithPayload<Actions.GET_PRODUTCS_BY_IDS, Array<string>>;
-export type SET_PRODUCTS = ActionWithPayload<Actions.SET_PRODUTCS, Array<Product>>;
+export type SET_PRODUCTS = ActionWithPayload<Actions.SET_PRODUTCS, ProductsResponse>;
 export type GET_CARTS = ActionWithPayload<Actions.GET_CARTS, string>;
 export type SET_CARTS = ActionWithPayload<Actions.SET_CARTS, Array<CartResponse>>;
 export type ADD_TO_CART = ActionWithPayload<Actions.ADD_TO_CART, AddToCartPayload>;
@@ -43,7 +42,6 @@ export type ADD_TO_NEW_CART = ActionWithPayload<Actions.ADD_TO_NEW_CART, AddToNe
 export type CREATE_CART = ActionWithPayload<Actions.CREATE_CART, string>;
 export type PAY_CART = ActionWithPayload<Actions.PAY_CART, string>;
 export type DELETE_CART = ActionWithPayload<Actions.DELETE_CART, string>;
-export type SET_ERROR = ActionWithPayload<Actions.SET_ERROR, string>;
 
 export type REDUX_ACTIONS =
 GET_PRODUCTS |
@@ -54,5 +52,4 @@ SET_CARTS |
 ADD_TO_CART |
 CREATE_CART |
 PAY_CART |
-DELETE_CART |
-SET_ERROR;
+DELETE_CART;

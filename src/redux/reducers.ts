@@ -1,14 +1,14 @@
-import { CartResponse, Product } from '../api';
+import { CartResponse, ProductsResponse } from '../api';
 import { Actions, REDUX_ACTIONS } from './action.types';
 
 export type StateType = {
-  products: Array<Product>,
+  products: ProductsResponse,
   carts: Array<CartResponse>,
   errorMessage: string,
 }
 
 const initialState: StateType = {
-  products: [],
+  products: { numberOfPages: 0, priceRange: { min: 0.0, max: 0.0 }, products: [] },
   carts: [],
   errorMessage: '',
 };
@@ -26,12 +26,6 @@ export default function cartReducer(state: StateType = initialState, action: RED
     return {
       ...state,
       carts: action.payload,
-    };
-  }
-  case Actions.SET_ERROR: {
-    return {
-      ...state,
-      errorMessage: action.payload,
     };
   }
   default: {

@@ -8,38 +8,41 @@ import {
   patchData,
   IdResponse,
   Product,
+  ProductsResponse,
 } from '../api';
 import {
   Actions, ADD_TO_CART, ADD_TO_NEW_CART, CREATE_CART, DELETE_CART, GET_CARTS, GET_PRODUTCS_BY_IDS, PAY_CART,
 } from './action.types';
 import { selectCarts, selectProducts } from './selectors';
-import { setCarts, setError, setProducts } from './actions';
+import { setCarts, setProducts } from './actions';
 
-function* getProductsSaga(): Generator<CallEffect | PutEffect, void, Array<Product>> {
+function* getProductsSaga(): Generator<CallEffect | PutEffect, void, ProductsResponse> {
   try {
-    const products = yield call(fetchData<Array<Product>>, '/product');
+    const products = yield call(fetchData<ProductsResponse>, '/product');
     yield put(setProducts(products));
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error fetching products'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error fetching products');
   }
 }
 
 function* getProductsByIdsSaga(action: GET_PRODUTCS_BY_IDS):
-Generator<SelectEffect | AllEffect<CallEffect<Product>> | CallEffect | PutEffect, void, Array<Product>> {
+Generator<SelectEffect | AllEffect<CallEffect<Product>> | CallEffect | PutEffect, void, ProductsResponse & Array<Product>> {
   try {
     const productIdsToFetch = action.payload;
     const existingProducts = yield select(selectProducts);
-    const existingProductsIds = existingProducts.map((p) => p.id);
+    const existingProductsIds = existingProducts.products.map((p) => p.id);
 
     const nonExistingProductsIds = productIdsToFetch.filter((id) => !existingProductsIds.includes(id));
     if (nonExistingProductsIds?.length) {
       const fetchedProducts: Array<Product> = yield all(
         nonExistingProductsIds.map((id) => call(fetchData<Product>, `/product/${id}`)),
       );
-      yield put(setProducts([...existingProducts, ...fetchedProducts]));
+      yield put(setProducts({ ...existingProducts, products: [...existingProducts, ...fetchedProducts] }));
     }
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error fetching products by ids'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error fetching products by ids');
   }
 }
 
@@ -49,7 +52,8 @@ function* getCartsSaga(action: GET_CARTS): Generator<CallEffect | PutEffect, voi
     const carts = yield call(fetchData<Array<CartResponse>>, `/cart?userId=${userId}`);
     yield put(setCarts(carts));
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error fetching carts'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error fetching carts');
   }
 }
 
@@ -63,7 +67,8 @@ function* createCartSaga(action: CREATE_CART): Generator<CallEffect | SelectEffe
     const existingCarts: Array<CartResponse> = yield select(selectCarts);
     yield put(setCarts([...existingCarts, newCart]));
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error creating cart'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error creating cart');
   }
 }
 
@@ -75,7 +80,8 @@ function* deleteCartSaga(action: DELETE_CART): Generator<CallEffect | SelectEffe
     const filteredCarts = existingCarts.filter((cart) => cart.id !== cartId);
     yield put(setCarts(filteredCarts));
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error deleting cart'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error deleting cart');
   }
 }
 
@@ -94,7 +100,8 @@ function* addToCartSaga(action: ADD_TO_CART): Generator<CallEffect | SelectEffec
     });
     yield put(setCarts(cartsToPut));
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error adding to cart'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error adding to cart');
   }
 }
 
@@ -109,7 +116,8 @@ function* addToNewCartSaga(action: ADD_TO_NEW_CART): Generator<CallEffect | Sele
     const existingCarts: Array<CartResponse> = yield select(selectCarts);
     yield put(setCarts([...existingCarts, newCart]));
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error adding to new cart'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error adding to new cart');
   }
 }
 
@@ -127,7 +135,8 @@ function* payCartSaga(action: PAY_CART): Generator<CallEffect | SelectEffect | P
     });
     yield put(setCarts(cartsToPut));
   } catch (e) {
-    yield put(setError(e ? JSON.stringify(e) : 'Error paying cart'));
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error paying cart');
   }
 }
 

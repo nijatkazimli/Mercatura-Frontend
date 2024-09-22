@@ -7,15 +7,20 @@ import './LeftBar.css';
 import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SortByOptions from '../../../constants/SortByOptions';
-import { fetchData, MinMaxResponse } from '../../../api';
+import { MinMaxResponse } from '../../../api';
 import { extractParamFromQuery, roundToNearestTwoPlaces } from '../../../common/utils';
 import useWindowDimensions from '../../../hooks/WindowDimensions';
 
-function LeftBar() {
+type Props = {
+  isLoading: boolean,
+  initialPriceRange: MinMaxResponse,
+}
+
+function LeftBar({ isLoading, initialPriceRange }: Props) {
+  const { min, max } = initialPriceRange;
+  const diffPrice = max - min;
   const [selectedSortOption, setSelectedSortOption] = useState<string>('NEW_TO_OLD');
 
-  const [initialPriceRange, setInitialPriceRange] = useState<number[]>([0, 100]);
-  const [isInitialPriceRangeLoaded, setIsInitialPriceRangeLoaded] = useState<boolean>(false);
   const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
   const [priceRangePercentages, setPriceRangePercentages] = useState<number[]>([0, 100]);
 
@@ -30,52 +35,37 @@ function LeftBar() {
   const upperPadding = 10;
 
   useEffect(() => {
-    (async () => {
-      try {
-        const range = await fetchData<MinMaxResponse>('/product/priceRange');
-        const rangeArr = [range.min, range.max];
-        setInitialPriceRange(rangeArr);
-        setPriceRange(rangeArr);
-        setIsInitialPriceRangeLoaded(true);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to fetch minimum/maximum price range');
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
     const minPrice = Number(extractParamFromQuery('minPrice', pageQuery));
     const maxPrice = Number(extractParamFromQuery('maxPrice', pageQuery));
     const minRating = Number(extractParamFromQuery('minRating', pageQuery));
     const maxRating = Number(extractParamFromQuery('maxRating', pageQuery));
     const sortBy = extractParamFromQuery('sortBy', pageQuery);
 
-    const diff = initialPriceRange[1] - initialPriceRange[0];
+    if (diffPrice !== 0) {
+      if (!Number.isNaN(minPrice)) {
+        const minPercentage = ((minPrice - min) / diffPrice) * 100;
+        setPriceRangePercentages((prev) => {
+          if (minPercentage !== prev[0]) {
+            return [minPercentage, prev[1]];
+          }
+          return prev;
+        });
+      } else {
+        setPriceRangePercentages((prev) => [0, prev[1]]);
+      }
 
-    if (!Number.isNaN(minPrice)) {
-      const minPercentage = ((minPrice - initialPriceRange[0]) / diff) * 100;
-      setPriceRangePercentages((prev) => {
-        if (minPercentage !== prev[0]) {
-          return [minPercentage, prev[1]];
-        }
-        return prev;
-      });
-    } else {
-      setPriceRangePercentages((prev) => [0, prev[1]]);
-    }
-
-    if (!Number.isNaN(maxPrice)) {
-      const maxPercentage = 100 - ((initialPriceRange[1] - maxPrice) / diff) * 100;
-      setPriceRangePercentages((prev) => {
-        if (maxPercentage !== prev[1]) {
-          return [prev[0], maxPercentage];
-        }
-        return prev;
-      });
-    } else {
-      setPriceRangePercentages((prev) => [prev[0], 100]);
-    }
+      if (!Number.isNaN(maxPrice)) {
+        const maxPercentage = 100 - ((max - maxPrice) / diffPrice) * 100;
+        setPriceRangePercentages((prev) => {
+          if (maxPercentage !== prev[1]) {
+            return [prev[0], maxPercentage];
+          }
+          return prev;
+        });
+      } else {
+        setPriceRangePercentages((prev) => [prev[0], 100]);
+      }
+    } else { setPriceRangePercentages([0, 100]); }
 
     if (!Number.isNaN(minRating)) {
       const minPercentage = (minRating / 5) * 100;
@@ -115,9 +105,8 @@ function LeftBar() {
 
   useEffect(() => {
     if (priceRange.length === 2 && priceRangePercentages.length === 2) {
-      const diff = initialPriceRange[1] - initialPriceRange[0];
-      const newMin = roundToNearestTwoPlaces(initialPriceRange[0] + (diff * priceRangePercentages[0]) / 100);
-      const newMax = roundToNearestTwoPlaces(initialPriceRange[1] - (diff * (100 - priceRangePercentages[1])) / 100);
+      const newMin = roundToNearestTwoPlaces(min + (diffPrice * priceRangePercentages[0]) / 100);
+      const newMax = roundToNearestTwoPlaces(max - (diffPrice * (100 - priceRangePercentages[1])) / 100);
       const newPriceRange = [newMin, newMax];
       setPriceRange(newPriceRange);
     }
@@ -211,17 +200,18 @@ function LeftBar() {
           max={100}
           step={1}
           style={{ maxHeight: '40px' }}
+          disabled={diffPrice === 0}
           color="purple"
         />
         <Flex direction="row" align="center" justify="between" gap="4">
-          <Spinner loading={!isInitialPriceRangeLoaded} size="3">
+          <Spinner loading={isLoading} size="3">
             <p style={{ textAlign: 'center' }}>
               Min –
               <br />
               {`${priceRange[0]} $`}
             </p>
           </Spinner>
-          <Spinner loading={!isInitialPriceRangeLoaded} size="3">
+          <Spinner loading={isLoading} size="3">
             <p style={{ textAlign: 'center' }}>
               Max –
               <br />
@@ -259,7 +249,7 @@ function LeftBar() {
           </p>
         </Flex>
       </div>
-      <Flex direction="row" justify="between">
+      <Flex direction="row" justify="between" gap="2">
         <Button
           onClick={onApplyClick}
           color="purple"

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './ProductDetails.css';
 import { Button, DataList, DropdownMenu } from '@radix-ui/themes';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
@@ -8,62 +8,42 @@ import ImageGallery from 'react-image-gallery';
 import Images from '../../constants/Images';
 import ProductItem from '../General/Product/ProductItem';
 import Reviews from '../General/Reviews/Reviews';
-import { fetchData, Product } from '../../api';
-import { addToCart, addToNewCart } from '../../redux/actions';
-import { selectCarts, selectProductsByCategory } from '../../redux/selectors';
+import { addToCart, addToNewCart, getProductsByIds } from '../../redux/actions';
+import { selectCarts, selectProductsByCategory, selectProductsByIds } from '../../redux/selectors';
 import AuthContext from '../../hooks/AuthContext';
 import { roundToNearestTwoPlaces } from '../../common/utils';
 
 function ProductDetails() {
   const { id } = useParams<{ id: string }>();
-  const [productDetails, setProductDetails] = useState<Product | null>(null);
+  const productDetails = useSelector(selectProductsByIds([id ?? '']))[0];
   const productsOfSameCategory = useSelector(selectProductsByCategory(productDetails?.category))
     .filter((product) => product.id !== id).slice(0, 5);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const carts = useSelector(selectCarts);
   const { authResponse } = useContext(AuthContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchDetails = async () => {
-      if (!id) {
-        setError('Product ID is not available.');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const product = await fetchData<Product>(`/product/${id}`);
-        setProductDetails(product);
-        setError(null);
-      } catch (err) {
-        setError('Failed to fetch product details.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDetails();
+    if (id) {
+      dispatch(getProductsByIds([id]));
+    }
   }, [id]);
 
-  const onAddToCart = async (cartId: string) => {
+  const onAddToCart = (cartId: string) => {
     if (id && productDetails) {
       dispatch(addToCart({ cartId, productId: id, productValue: productDetails.price }));
     }
   };
 
-  const onAddToNewCart = async () => {
+  const onAddToNewCart = () => {
     if (id && authResponse && productDetails) {
       dispatch(addToNewCart({ userId: authResponse.id, productId: id, productValue: productDetails.price }));
     }
   };
 
-  const navigateToLoginIfNotLoggedIn = () => { if (!authResponse) { navigate('/auth/login'); } };
+  const alreadyAddedToCart = (cartId: string) => carts.find((cart) => cart.id === cartId)?.productIds.includes(id ?? '');
 
-  if (loading) return <p>Loading product details...</p>;
-  if (error) return <p>{error}</p>;
+  const navigateToLoginIfNotLoggedIn = () => { if (!authResponse) { navigate('/auth/login'); } };
 
   return (
     <div className="product-details-container">
@@ -116,6 +96,7 @@ function ProductDetails() {
                         key={cart.id}
                         shortcut={`${cart.productIds.length.toString()} item${cart.productIds.length > 1 ? 's' : ''}`}
                         onClick={() => onAddToCart(cart.id)}
+                        disabled={alreadyAddedToCart(cart.id)}
                       >
                         Cart
                         {' '}

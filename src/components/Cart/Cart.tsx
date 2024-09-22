@@ -23,7 +23,7 @@ function Cart() {
   return (
     <div style={{ paddingLeft: 20, paddingRight: 20 }}>
       <h2 style={{ fontFamily: 'Montserrat' }}>Products in this cart</h2>
-      <ProductGrid products={products} />
+      <ProductGrid isHome={false} products={products} />
     </div>
   );
 }

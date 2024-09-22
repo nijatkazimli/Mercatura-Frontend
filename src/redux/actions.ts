@@ -1,4 +1,4 @@
-import { CartResponse, Product } from '../api';
+import { CartResponse, ProductsResponse } from '../api';
 import {
   Actions,
   GET_PRODUCTS,
@@ -11,7 +11,6 @@ import {
   GET_CARTS,
   SET_CARTS,
   PAY_CART,
-  SET_ERROR,
   AddToNewCartPayload,
   ADD_TO_NEW_CART,
 } from './action.types';
@@ -25,7 +24,7 @@ export const getProductsByIds = (productIds: Array<string>): GET_PRODUTCS_BY_IDS
   payload: productIds,
 });
 
-export const setProducts = (products: Array<Product>): SET_PRODUCTS => ({
+export const setProducts = (products: ProductsResponse): SET_PRODUCTS => ({
   type: Actions.SET_PRODUTCS,
   payload: products,
 });
@@ -63,9 +62,4 @@ export const payCart = (cartId: string): PAY_CART => ({
 export const deleteCart = (cartId: string): DELETE_CART => ({
   type: Actions.DELETE_CART,
   payload: cartId,
-});
-
-export const setError = (message: string): SET_ERROR => ({
-  type: Actions.SET_ERROR,
-  payload: message,
 });

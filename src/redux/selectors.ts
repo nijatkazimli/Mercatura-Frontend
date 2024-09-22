@@ -4,11 +4,11 @@ import { StateType } from './reducers';
 export const selectProducts = (state: StateType) => state.products;
 export const selectProductsByIds = (productIds: Array<string>) => createSelector(
   [selectProducts],
-  (products) => products.filter((product) => productIds.includes(product.id)),
+  (products) => products.products.filter((product) => productIds.includes(product.id)),
 );
 export const selectProductsByCategory = (category?: string) => createSelector(
   [selectProducts],
-  (products) => products.filter((product) => product.category === category) ?? [],
+  (products) => products.products.filter((product) => product.category === category) ?? [],
 );
 
 export const selectCarts = (state: StateType) => state.carts;

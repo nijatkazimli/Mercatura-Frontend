@@ -43,4 +43,10 @@ export type MinMaxResponse = {
   max: number,
 };
 
+export type ProductsResponse = {
+  numberOfPages: number,
+  priceRange: MinMaxResponse,
+  products: Array<Product>,
+}
+
 export type CartsResponse = Array<CartResponse>;

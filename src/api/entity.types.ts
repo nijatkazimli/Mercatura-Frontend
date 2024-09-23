@@ -9,7 +9,7 @@ export type Product = {
   description?: string | null,
   rating: number,
   price: number,
-  image?: string | null,
+  images?: Array<string> | null,
   category: string,
 };
 

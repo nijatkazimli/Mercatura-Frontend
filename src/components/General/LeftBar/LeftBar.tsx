@@ -27,11 +27,9 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
   const [ratingRange, setRatingRange] = useState<number[]>([0, 5]);
   const [ratingRangePercentages, setRatingRangePercentages] = useState<number[]>([0, 100]);
 
-  const { height } = useWindowDimensions();
+  const { scrollHeight } = useWindowDimensions();
   const pageQuery = useLocation().search;
   const navigate = useNavigate();
-
-  const layoutHeight = 80;
   const upperPadding = 10;
 
   useEffect(() => {
@@ -173,7 +171,7 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
       className="leftBar"
       direction="column"
       gap="7"
-      style={{ padding: `${2 * upperPadding}px`, minHeight: '500px', height: height - layoutHeight - upperPadding }}
+      style={{ padding: `${2 * upperPadding}px`, minHeight: '500px', height: scrollHeight }}
     >
       <div>
         <p style={{ margin: '2px' }}>Sort By:</p>

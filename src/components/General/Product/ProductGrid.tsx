@@ -19,10 +19,18 @@ function ProductGrid({ products, isLoading = false, isHome = true }: Props) {
   const rows = useMemo(() => Math.ceil(products.length / columns), [products, columns]);
 
   return (
-    <div style={{ margin: 10, flex: 1 }}>
+    <div className="product-grid" style={{ margin: 10 }}>
       <Spinner loading={isLoading} style={{ height: 100 }}>
         <Grid columns={columns.toString()} rows={rows.toString()} gap="3">
-          {products.map((product) => <ProductItem key={product.id} id={product.id} name={product.name} price={product.price} />)}
+          {products.map((product) => (
+            <ProductItem
+              key={product.id}
+              id={product.id}
+              imageSrc={product?.images?.[0]}
+              name={product.name}
+              price={product.price}
+            />
+          ))}
         </Grid>
       </Spinner>
     </div>

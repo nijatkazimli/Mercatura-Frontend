@@ -4,7 +4,7 @@ import { Button, DataList, DropdownMenu } from '@radix-ui/themes';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import ImageGallery from 'react-image-gallery';
+import ImageGallery, { ReactImageGalleryItem } from 'react-image-gallery';
 import Images from '../../constants/Images';
 import ProductItem from '../General/Product/ProductItem';
 import Reviews from '../General/Reviews/Reviews';
@@ -45,6 +45,12 @@ function ProductDetails() {
 
   const navigateToLoginIfNotLoggedIn = () => { if (!authResponse) { navigate('/auth/login'); } };
 
+  const imageItems: ReactImageGalleryItem[] = productDetails?.images && productDetails.images.length > 0
+    ? productDetails.images.map((url) => ({
+      original: url, thumbnail: url, originalWidth: 500, originalHeight: 500,
+    }))
+    : [{ original: Images.noProductImage.src, thumbnail: Images.noProductImage.src }];
+
   return (
     <div className="product-details-container">
       <div className="details-and-similar-container">
@@ -52,8 +58,7 @@ function ProductDetails() {
           <div className="product-details-container-details">
             <div className="product-details-image">
               <ImageGallery
-                items={[{ original: Images.noProductImage.src, thumbnail: Images.noProductImage.src },
-                  { original: Images.noProductImage.src, thumbnail: Images.noProductImage.src }]}
+                items={imageItems}
                 showFullscreenButton={false}
                 showPlayButton={false}
               />
@@ -124,6 +129,7 @@ function ProductDetails() {
           <ProductItem
             key={product.id}
             id={product.id}
+            imageSrc={product.images?.[0]}
             name={product.name}
             price={product.price}
           />

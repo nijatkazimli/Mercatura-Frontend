@@ -1,0 +1,61 @@
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { Button, Flex, TextField } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes/dist/cjs/components/callout';
+import { useNavigate } from 'react-router-dom';
+import { selectUser } from '../../redux/selectors';
+import './Profile.css';
+import Images from '../../constants/Images';
+import AuthContext from '../../hooks/AuthContext';
+
+function Profile() {
+  const user = useSelector(selectUser);
+  const { authResponse, setAuthResponse } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    setAuthResponse(null);
+    navigate('/');
+  };
+
+  return (
+    authResponse ? (
+      <Flex p="8" style={{ justifyContent: 'space-around' }}>
+        <Flex direction="column" gap="2" align="center">
+          <img
+            src={user.profileImage ?? Images.defaultProfilePicture.src}
+            alt={Images.defaultProfilePicture.alt}
+            className="profile-image"
+          />
+          <Button onClick={logOut} color="red" size="3" style={{ maxWidth: 120 }}>
+            Log Out
+          </Button>
+        </Flex>
+        <Flex direction="column" gap="2" ml="4">
+          <Text size="7">
+            {user.firstName}
+            {' '}
+            {user.lastName}
+          </Text>
+          <Text size="5">{user.userName}</Text>
+          <Text mt="3">
+            Set a new password
+          </Text>
+          <TextField.Root placeholder="New password">
+            <TextField.Slot />
+          </TextField.Root>
+          <TextField.Root placeholder="Repeat password">
+            <TextField.Slot />
+          </TextField.Root>
+          <Button color="purple">
+            Change Password
+          </Button>
+        </Flex>
+      </Flex>
+    ) : (
+      <p>You are not logged in!</p>
+    )
+  );
+}
+
+export default Profile;

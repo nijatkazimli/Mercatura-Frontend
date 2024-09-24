@@ -23,6 +23,10 @@ function LayoutProfilePicture() {
     navigate('/cart');
   };
 
+  const goToProfile = () => {
+    navigate('/profile');
+  };
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
@@ -35,6 +39,9 @@ function LayoutProfilePicture() {
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
+        <DropdownMenu.Item onClick={goToProfile}>
+          Profile
+        </DropdownMenu.Item>
         <DropdownMenu.Item onClick={goToCarts} shortcut={cartsCount}>
           My Carts
         </DropdownMenu.Item>

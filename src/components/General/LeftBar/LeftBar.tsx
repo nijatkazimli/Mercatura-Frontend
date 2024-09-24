@@ -19,7 +19,7 @@ type Props = {
 function LeftBar({ isLoading, initialPriceRange }: Props) {
   const { min, max } = initialPriceRange;
   const diffPrice = max - min;
-  const [selectedSortOption, setSelectedSortOption] = useState<string>('NEW_TO_OLD');
+  const [selectedSortOption, setSelectedSortOption] = useState<string>('PRICE_DESCENDING');
 
   const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
   const [priceRangePercentages, setPriceRangePercentages] = useState<number[]>([0, 100]);
@@ -97,7 +97,7 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
         return prevSort;
       });
     } else {
-      setSelectedSortOption('NEW_TO_OLD');
+      setSelectedSortOption('PRICE_DESCENDING');
     }
   }, [pageQuery, initialPriceRange]);
 
@@ -141,7 +141,7 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
     } else {
       searchParams.delete('maxRating');
     }
-    if (selectedSortOption !== 'NEW_TO_OLD') {
+    if (selectedSortOption !== 'PRICE_DESCENDING') {
       searchParams.set('sortBy', selectedSortOption);
     } else {
       searchParams.delete('sortBy');
@@ -152,11 +152,11 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
   const onResetClick = () => {
     if (priceRangePercentages[0] !== 0 || priceRangePercentages[1] !== 100
       || ratingRangePercentages[0] !== 0 || ratingRangePercentages[1] !== 100
-      || selectedSortOption !== 'NEW_TO_OLD'
+      || selectedSortOption !== 'PRICE_DESCENDING'
     ) {
       setPriceRangePercentages([0, 100]);
       setRatingRangePercentages([0, 100]);
-      setSelectedSortOption('NEW_TO_OLD');
+      setSelectedSortOption('PRICE_DESCENDING');
       const searchParams = new URLSearchParams();
       const name = extractParamFromQuery('name', pageQuery);
       const category = extractParamFromQuery('category', pageQuery);

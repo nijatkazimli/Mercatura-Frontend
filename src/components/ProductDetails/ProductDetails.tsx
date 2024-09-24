@@ -120,7 +120,7 @@ function ProductDetails() {
         )}
         <div className="reviews">
           <p>Reviews</p>
-          <Reviews productId={id ?? '0'} />
+          <Reviews product={productDetails} />
         </div>
       </div>
       <div>

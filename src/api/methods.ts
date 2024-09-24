@@ -3,7 +3,7 @@ const baseUrl = 'http://localhost:8080';
 // const baseUrl = 'http://192.168.0.109:8080';
 // const baseUrl = 'https://mercatura-backend-apim.azure-api.net';
 
-export async function fetchData<T>(path: string, options?: RequestInit): Promise<T> {
+export async function fetchData<T>(path: string, options?: RequestInit, token?: string): Promise<T> {
   const defaultOptions: RequestInit = {
     method: 'GET',
     headers: {
@@ -11,6 +11,10 @@ export async function fetchData<T>(path: string, options?: RequestInit): Promise
     },
     ...options,
   };
+
+  if (token && defaultOptions.headers) {
+    (defaultOptions.headers as Record<string, string>).Authorization = `Bearer ${token}`;
+  }
 
   try {
     const response = await fetch(baseUrl + path, defaultOptions);

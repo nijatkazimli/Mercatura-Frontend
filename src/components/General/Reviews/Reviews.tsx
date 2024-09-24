@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Separator } from '@radix-ui/themes';
-import { fetchData, postData, Review as ReviewType } from '../../../api';
+import { useSelector } from 'react-redux';
+import {
+  fetchData, postData, Product, Review as ReviewType,
+} from '../../../api';
 import Review from './Review';
 import ReviewForm from './ReviewForm';
 import AuthContext from '../../../hooks/AuthContext';
 
 type Props = {
-  productId: string;
+  product: Product;
 };
 
-function Reviews({ productId }: Props) {
+function Reviews({ product }: Props) {
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +21,7 @@ function Reviews({ productId }: Props) {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const fetchedReviews = await fetchData<ReviewType[]>(`/review/get?productId=${productId}`);
+        const fetchedReviews = await fetchData<ReviewType[]>(`/review/get?productId=${product.id}`);
         setReviews(fetchedReviews);
         setError(null);
       } catch (err) {
@@ -29,14 +32,14 @@ function Reviews({ productId }: Props) {
     };
 
     fetchReviews();
-  }, [productId]);
+  }, [product]);
 
   const onReviewSubmitClicked = async (content: string, rating: number) => {
     try {
       const body = { content, rating };
-      const path = `/review?authorId=${authResponse?.id}&productId=${productId}`;
+      const path = `/review?authorId=${authResponse?.id}&productId=${product.id}`;
       await postData(path, body);
-      const fetchedReviews = await fetchData<ReviewType[]>(`/review/get?productId=${productId}`);
+      const fetchedReviews = await fetchData<ReviewType[]>(`/review/get?productId=${product.id}`);
       setReviews(fetchedReviews);
     } catch (error) {
       setError('Failed to submit review.');

@@ -1,4 +1,4 @@
-import { CartResponse, ProductsResponse } from '../api';
+import { CartResponse, ProductsResponse, User } from '../api';
 import {
   Actions,
   GET_PRODUCTS,
@@ -13,7 +13,20 @@ import {
   PAY_CART,
   AddToNewCartPayload,
   ADD_TO_NEW_CART,
+  GET_USER,
+  SET_USER,
+  GetUserPayload,
 } from './action.types';
+
+export const getUser = (payload: GetUserPayload): GET_USER => ({
+  type: Actions.GET_USER,
+  payload,
+});
+
+export const setUser = (user: User): SET_USER => ({
+  type: Actions.SET_USER,
+  payload: user,
+});
 
 export const getProducts = (): GET_PRODUCTS => ({
   type: Actions.GET_PRODUTCS,

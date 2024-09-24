@@ -10,7 +10,7 @@ import SearchBar from '../General/SearchBar';
 import { fetchData, ProductCategory } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
-import { getCarts, getProducts } from '../../redux/actions';
+import { getCarts, getProducts, getUser } from '../../redux/actions';
 import { extractParamFromQuery } from '../../common/utils';
 
 function Layout() {
@@ -38,6 +38,7 @@ function Layout() {
   useEffect(() => {
     if (authResponse) {
       dispatch(getCarts(authResponse.id));
+      dispatch(getUser({ userId: authResponse.id, token: authResponse.token }));
     }
   }, [dispatch, authResponse]);
 

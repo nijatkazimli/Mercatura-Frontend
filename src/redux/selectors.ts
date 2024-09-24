@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { StateType } from './reducers';
 
+export const selectUser = (state: StateType) => state.user;
 export const selectProducts = (state: StateType) => state.products;
 export const selectProductsByIds = (productIds: Array<string>) => createSelector(
   [selectProducts],

@@ -1,6 +1,8 @@
-import { CartResponse, ProductsResponse } from '../api';
+import { User, CartResponse, ProductsResponse } from '../api';
 
 export enum Actions {
+  GET_USER = 'GET_USER',
+  SET_USER = 'SET_USER',
   GET_PRODUTCS = 'GET_PRODUCTS',
   GET_PRODUTCS_BY_IDS = 'GET_PRODUCTS_BY_IDS',
   SET_PRODUTCS = 'SET_PRODUCTS',
@@ -32,6 +34,13 @@ export type AddToNewCartPayload = {
   userId: string,
 } & Omit<AddToCartPayload, 'cartId'>;
 
+export type GetUserPayload = {
+  userId: string,
+  token: string,
+}
+
+export type GET_USER = ActionWithPayload<Actions.GET_USER, GetUserPayload>;
+export type SET_USER = ActionWithPayload<Actions.SET_USER, User>;
 export type GET_PRODUCTS = ActionWithoutPayload<Actions.GET_PRODUTCS>;
 export type GET_PRODUTCS_BY_IDS = ActionWithPayload<Actions.GET_PRODUTCS_BY_IDS, Array<string>>;
 export type SET_PRODUCTS = ActionWithPayload<Actions.SET_PRODUTCS, ProductsResponse>;
@@ -44,6 +53,8 @@ export type PAY_CART = ActionWithPayload<Actions.PAY_CART, string>;
 export type DELETE_CART = ActionWithPayload<Actions.DELETE_CART, string>;
 
 export type REDUX_ACTIONS =
+GET_USER |
+SET_USER |
 GET_PRODUCTS |
 GET_PRODUTCS_BY_IDS |
 SET_PRODUCTS |

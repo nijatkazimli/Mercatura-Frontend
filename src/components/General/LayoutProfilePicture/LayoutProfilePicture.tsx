@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Images from '../../../constants/Images';
 import AuthContext from '../../../hooks/AuthContext';
-import { selectCarts } from '../../../redux/selectors';
+import { selectCarts, selectUser } from '../../../redux/selectors';
 
 function LayoutProfilePicture() {
   const { setAuthResponse } = useContext(AuthContext);
   const navigate = useNavigate();
   const carts = useSelector(selectCarts);
+  const user = useSelector(selectUser);
   const cartsCount = carts.length > 0 ? carts.length.toString() : '';
 
   const logOut = () => {
@@ -27,7 +28,7 @@ function LayoutProfilePicture() {
       <DropdownMenu.Trigger>
         <Avatar
           className="layout-profile-picture"
-          src={Images.defaultProfilePicture.src}
+          src={user.profileImage ?? Images.defaultProfilePicture.src}
           alt={Images.defaultProfilePicture.alt}
           fallback="USER"
           size="4"

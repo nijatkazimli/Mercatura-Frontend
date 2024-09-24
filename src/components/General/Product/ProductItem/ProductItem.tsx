@@ -39,12 +39,14 @@ function ProductItem({
         src={imageSrc ?? Images.noProductImage.src}
         alt={imageSrc ? Images.productImage.alt : Images.noProductImage.alt}
       />
-      <p>{name}</p>
-      <p style={{ fontFamily: 'system-ui' }}>
-        {price}
-        {' '}
-        $
-      </p>
+      <div className="name-and-price">
+        <p>{name}</p>
+        <p style={{ fontFamily: 'system-ui' }}>
+          {price}
+          {' '}
+          $
+        </p>
+      </div>
     </div>
   );
 }

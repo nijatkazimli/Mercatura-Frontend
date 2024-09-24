@@ -1,3 +1,11 @@
+export type User = {
+  id: string,
+  firstName: string,
+  lastName: string,
+  userName: string,
+  profileImage?: string | null,
+}
+
 export type ProductCategory = {
  id: string,
  name: string,
@@ -18,6 +26,7 @@ export type Review = {
   content?: string | null,
   rating: number,
   authorFullName: string,
+  authorProfileImage?: string | null,
   productId: string,
 };
 

@@ -11,7 +11,7 @@ type Props = {
   product: Product;
 };
 
-function Reviews({ product }: Props) {
+function Reviews({ product }: Readonly<Props>) {
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

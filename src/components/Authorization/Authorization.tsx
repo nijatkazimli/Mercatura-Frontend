@@ -112,7 +112,7 @@ function LoginPage({ isLogin }: Props) {
               <Callout.Icon>
                 <QuestionMarkCircledIcon />
               </Callout.Icon>
-              <Callout.Text>
+              <Callout.Text style={{ whiteSpace: 'pre-wrap' }}>
                 {isLogin ? 'You do not have an account?' : 'You have an account?'}
               </Callout.Text>
               <Button className="auth-navigation-button" type="button" onClick={() => navigate(isLogin ? '/auth/register' : '/auth/login')}>

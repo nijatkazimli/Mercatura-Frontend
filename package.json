@@ -7,8 +7,6 @@
     "@radix-ui/themes": "^3.1.1",
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.6",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.101",
@@ -58,6 +56,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.7",
     "@types/react-image-gallery": "^1.2.4",
@@ -70,6 +70,7 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "globals": "^15.6.0",
+    "jest": "^27.5.1",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "typescript-eslint": "^7.14.1"

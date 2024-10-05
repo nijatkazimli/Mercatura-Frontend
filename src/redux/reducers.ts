@@ -16,7 +16,7 @@ const initialState: StateType = {
 };
 
 // eslint-disable-next-line default-param-last
-export default function cartReducer(state: StateType = initialState, action: REDUX_ACTIONS) {
+export default function rootReducer(state: StateType = initialState, action: REDUX_ACTIONS) {
   switch (action.type) {
   case Actions.SET_USER: {
     return {

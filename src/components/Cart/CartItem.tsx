@@ -47,7 +47,6 @@ function CartItem({
         <p style={{ flex: 1, textAlign: 'left' }}>{`${numberOfItems} item${numberOfItems > 1 ? 's' : ''}`}</p>
         <p style={{ flex: 1, textAlign: 'center' }}>{`${totalValue} $`}</p>
         <Badge color={color as Color} variant="solid" size="2" radius="full">{status}</Badge>
-        {/* <p style={{ flex: 1, textAlign: 'right', color: `${color}` }}>{status}</p> */}
       </Flex>
       <div style={{ width: isMobile ? '10px' : '500px' }} />
       <Flex direction={isMobile ? 'column' : 'row'} align="center" gap="8px">

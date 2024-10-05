@@ -127,3 +127,34 @@ export async function deleteData<T>(path: string, body?: object, options?: Reque
     }
   }
 }
+
+export async function postImage(path: string, file: File, token: string) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const options: RequestInit = {
+    method: 'POST',
+    headers: {
+      // 'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  };
+
+  try {
+    const response = await fetch(baseUrl + path, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Image post error: ${error.message}`);
+    } else {
+      throw new Error('An unknown error occurred');
+    }
+  }
+}
+
+export async function postImages(path: string, files: Array<File>, token: string) {
+  const uploadPromises = files.map((file) => postImage(path, file, token));
+  Promise.all(uploadPromises);
+}

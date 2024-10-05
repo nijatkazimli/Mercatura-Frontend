@@ -22,6 +22,8 @@ export type Product = {
   category: string,
 };
 
+export type AddProduct = Omit<Product, 'id' | 'rating' | 'category'> & { categoryId: string };
+
 export type Review = {
   id: string,
   content?: string | null,
@@ -60,3 +62,5 @@ export type ProductsResponse = {
 }
 
 export type CartsResponse = Array<CartResponse>;
+
+export type CategoriesResponse = Array<ProductCategory>;

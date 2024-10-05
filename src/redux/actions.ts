@@ -1,4 +1,6 @@
-import { CartResponse, ProductsResponse, User } from '../api';
+import {
+  CartResponse, CategoriesResponse, ProductsResponse, User,
+} from '../api';
 import {
   Actions,
   GET_PRODUCTS,
@@ -16,6 +18,8 @@ import {
   GET_USER,
   SET_USER,
   GetUserPayload,
+  GET_CATEGORIES,
+  SET_CATEGORIES,
 } from './action.types';
 
 export const getUser = (payload: GetUserPayload): GET_USER => ({
@@ -32,6 +36,10 @@ export const getProducts = (): GET_PRODUCTS => ({
   type: Actions.GET_PRODUTCS,
 });
 
+export const getCategories = (): GET_CATEGORIES => ({
+  type: Actions.GET_CATEGORIES,
+});
+
 export const getProductsByIds = (productIds: Array<string>): GET_PRODUTCS_BY_IDS => ({
   type: Actions.GET_PRODUTCS_BY_IDS,
   payload: productIds,
@@ -40,6 +48,11 @@ export const getProductsByIds = (productIds: Array<string>): GET_PRODUTCS_BY_IDS
 export const setProducts = (products: ProductsResponse): SET_PRODUCTS => ({
   type: Actions.SET_PRODUTCS,
   payload: products,
+});
+
+export const setCategories = (categories: CategoriesResponse): SET_CATEGORIES => ({
+  type: Actions.SET_CATEGORIES,
+  payload: categories,
 });
 
 export const getCarts = (userId: string): GET_CARTS => ({

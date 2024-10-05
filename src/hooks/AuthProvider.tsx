@@ -4,7 +4,8 @@ import React, {
 } from 'react';
 import Cookies from 'js-cookie';
 import AuthContext from './AuthContext';
-import { AuthResponse } from '../api';
+import { AuthResponse, User } from '../api';
+import { setUser } from '../redux/actions';
 
 interface AuthProviderProps {
   children?: ReactNode;
@@ -17,6 +18,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const authResponseCookie = Cookies.get('authResponse');
     if (authResponseCookie) {
       setAuthResponse(JSON.parse(authResponseCookie));
+    } else {
+      setUser({} as User);
     }
   }, []);
 
@@ -25,6 +28,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       Cookies.set('authResponse', JSON.stringify(authResponse), { expires: 3, secure: true, sameSite: 'strict' });
     } else {
       Cookies.remove('authResponse', { secure: true, sameSite: 'strict' });
+      setUser({} as User);
     }
   }, [authResponse]);
 

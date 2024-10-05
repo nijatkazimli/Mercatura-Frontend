@@ -7,10 +7,13 @@ import { isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import Images from '../../constants/Images';
 import SearchBar from '../General/SearchBar';
-import { fetchData, ProductCategory } from '../../api';
+import { fetchData, ProductCategory, User } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
-import { getCarts, getProducts, getUser } from '../../redux/actions';
+import {
+  getCarts, getCategories, getProducts, getUser,
+  setUser,
+} from '../../redux/actions';
 import { extractParamFromQuery, isUserAbleToMerchandise } from '../../common/utils';
 import { selectUser } from '../../redux/selectors';
 
@@ -41,11 +44,14 @@ function Layout() {
     if (authResponse) {
       dispatch(getCarts(authResponse.id));
       dispatch(getUser({ userId: authResponse.id, token: authResponse.token }));
+    } else {
+      dispatch(setUser({} as User));
     }
   }, [dispatch, authResponse]);
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getCategories());
   }, [dispatch]);
 
   useEffect(() => {

@@ -1,9 +1,12 @@
-import { CartResponse, ProductsResponse, User } from '../api';
+import {
+  CartResponse, CategoriesResponse, ProductsResponse, User,
+} from '../api';
 import { Actions, REDUX_ACTIONS } from './action.types';
 
 export type StateType = {
   user: User,
   products: ProductsResponse,
+  categories: CategoriesResponse,
   carts: Array<CartResponse>,
   errorMessage: string,
 }
@@ -11,6 +14,7 @@ export type StateType = {
 const initialState: StateType = {
   user: {} as User,
   products: { numberOfPages: 0, priceRange: { min: 0.0, max: 0.0 }, products: [] },
+  categories: [],
   carts: [],
   errorMessage: '',
 };
@@ -28,6 +32,12 @@ export default function rootReducer(state: StateType = initialState, action: RED
     return {
       ...state,
       products: action.payload,
+    };
+  }
+  case Actions.SET_CATEGORIES: {
+    return {
+      ...state,
+      categories: action.payload,
     };
   }
   case Actions.SET_CARTS: {

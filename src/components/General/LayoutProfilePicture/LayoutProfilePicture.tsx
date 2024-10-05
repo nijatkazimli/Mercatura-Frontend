@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import Images from '../../../constants/Images';
 import AuthContext from '../../../hooks/AuthContext';
 import { selectCarts, selectUser } from '../../../redux/selectors';
+import { setUser } from '../../../redux/actions';
+import { User } from '../../../api';
 
 function LayoutProfilePicture() {
   const { setAuthResponse } = useContext(AuthContext);
@@ -16,6 +18,7 @@ function LayoutProfilePicture() {
 
   const logOut = () => {
     setAuthResponse(null);
+    setUser({} as User);
     navigate('/');
   };
 

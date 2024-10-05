@@ -88,4 +88,11 @@ export const extractParamFromQuery = (key: string, pageQuery?: string | null) =>
  *
  * @param {User} user - The user we check the eligibility for.
  */
-export const isUserAbleToMerchandise = (user?: User) => user?.roles?.some((role) => MERCHANDISING_ROLES.includes(role));
+export const isUserAbleToMerchandise = (user?: User) => {
+  if (!user?.roles) { return false; }
+  if (Object.keys(user).length === 0) { return false; }
+  if (user.roles.length === 0) { return false; }
+  return user?.roles?.some((role) => MERCHANDISING_ROLES.includes(role));
+};
+
+export const getNameById = (entities: { id: string, name: string }[], id: string) => entities.find((entity) => entity.id === id)?.name;

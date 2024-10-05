@@ -10,12 +10,15 @@ import {
   Product,
   ProductsResponse,
   User,
+  CategoriesResponse,
 } from '../api';
 import {
   Actions, ADD_TO_CART, ADD_TO_NEW_CART, CREATE_CART, DELETE_CART, GET_CARTS, GET_PRODUTCS_BY_IDS, GET_USER, PAY_CART,
 } from './action.types';
 import { selectCarts, selectProducts } from './selectors';
-import { setCarts, setProducts, setUser } from './actions';
+import {
+  setCarts, setCategories, setProducts, setUser,
+} from './actions';
 
 function* getUserSaga(action: GET_USER): Generator<CallEffect | PutEffect, void, User> {
   const { userId, token } = action.payload;
@@ -35,6 +38,16 @@ function* getProductsSaga(): Generator<CallEffect | PutEffect, void, ProductsRes
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e ? JSON.stringify(e) : 'Error fetching products');
+  }
+}
+
+function* getCategoriesSaga(): Generator<CallEffect | PutEffect, void, CategoriesResponse> {
+  try {
+    const categories = yield call(fetchData<CategoriesResponse>, '/category');
+    yield put(setCategories([{ id: '', name: 'All Categories' }, ...categories]));
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e ? JSON.stringify(e) : 'Error fetching categories');
   }
 }
 
@@ -155,6 +168,7 @@ function* payCartSaga(action: PAY_CART): Generator<CallEffect | SelectEffect | P
 function* cartSaga() {
   yield takeEvery(Actions.GET_USER, getUserSaga);
   yield takeEvery(Actions.GET_PRODUTCS, getProductsSaga);
+  yield takeEvery(Actions.GET_CATEGORIES, getCategoriesSaga);
   yield takeEvery(Actions.GET_PRODUTCS_BY_IDS, getProductsByIdsSaga);
   yield takeEvery(Actions.GET_CARTS, getCartsSaga);
   yield takeEvery(Actions.CREATE_CART, createCartSaga);

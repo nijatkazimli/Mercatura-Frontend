@@ -32,7 +32,7 @@ export async function fetchData<T>(path: string, options?: RequestInit, token?: 
   }
 }
 
-export async function postData<T>(path: string, body?: object, options?: RequestInit): Promise<T> {
+export async function postData<T>(path: string, body?: object, options?: RequestInit, token?: string): Promise<T> {
   const defaultOptions: RequestInit = {
     method: 'POST',
     headers: {
@@ -43,6 +43,10 @@ export async function postData<T>(path: string, body?: object, options?: Request
 
   if (body) {
     defaultOptions.body = JSON.stringify(body);
+  }
+
+  if (token && defaultOptions.headers) {
+    (defaultOptions.headers as Record<string, string>).Authorization = `Bearer ${token}`;
   }
 
   try {

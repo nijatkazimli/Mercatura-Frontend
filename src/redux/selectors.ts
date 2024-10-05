@@ -3,6 +3,7 @@ import { StateType } from './reducers';
 
 export const selectUser = (state: StateType) => state.user;
 export const selectProducts = (state: StateType) => state.products;
+export const selectCategories = (state: StateType) => state.categories;
 export const selectProductsByIds = (productIds: Array<string>) => createSelector(
   [selectProducts],
   (products) => products.products.filter((product) => productIds.includes(product.id)),

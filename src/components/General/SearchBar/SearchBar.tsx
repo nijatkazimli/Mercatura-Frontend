@@ -25,7 +25,7 @@ function SearchBar({
   dropDownPlaceholder = 'Select',
   dropDownItemValues,
   capitalizeFirstLetter = false,
-}: Props) {
+}: Readonly<Props>) {
   const [searchTerm, setSearchTerm] = useState<string>(term ?? '');
   const [dropdownValue, setDropdownValue] = useState<string | undefined>(dropDownValue ?? dropDownItemValues?.at(0));
 
@@ -34,6 +34,12 @@ function SearchBar({
       setDropdownValue(dropDownValue);
     }
   }, [dropDownValue]);
+
+  useEffect(() => {
+    if (!dropDownValue) {
+      setDropdownValue(dropDownItemValues?.at(0));
+    }
+  }, [dropDownItemValues]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;

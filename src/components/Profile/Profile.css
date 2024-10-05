@@ -1,11 +1,14 @@
 .profile-image {
-    max-width: 400px;
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
     border-radius: 100%;
     border: 2px solid #c2c2c2;
 }
 
 @media (max-width: 768px) {
     .profile-image {
-        max-width: 200px;
+        width: 200px;
+        height: 200px;
     }
 }

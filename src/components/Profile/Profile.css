@@ -6,9 +6,17 @@
     border: 2px solid #c2c2c2;
 }
 
+.profile-container {
+    justify-content: space-around;
+    flex-direction: row;
+}
+
 @media (max-width: 768px) {
     .profile-image {
         width: 200px;
         height: 200px;
+    }
+    .profile-container  {
+        flex-direction: column;
     }
 }

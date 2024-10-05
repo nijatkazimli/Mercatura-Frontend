@@ -14,6 +14,8 @@ import { getUser } from '../../redux/actions';
 function Profile() {
   const user = useSelector(selectUser);
   const { authResponse, setAuthResponse } = useContext(AuthContext);
+  const profilePictureTitle = user?.profileImage ? 'Change the profile picture' : 'Add a profile picture';
+  const profilePictureButton = user?.profileImage ? 'Change profile picture' : 'Add profile picture';
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,7 +35,7 @@ function Profile() {
 
   return (
     authResponse ? (
-      <Flex p="8" style={{ justifyContent: 'space-around' }}>
+      <Flex p="8" className="profile-container">
         <Flex direction="column" gap="2" align="center">
           <img
             src={user.profileImage ?? Images.defaultProfilePicture.src}
@@ -43,11 +45,11 @@ function Profile() {
           <Flex direction="row" gap="3">
             <FileUploadPopup
               trigger={(
-                <Button color="purple" size="3" style={{ maxWidth: 200 }}>
-                  Change Profile Picture
+                <Button color="purple" size="3" style={{ maxWidth: 210 }}>
+                  {profilePictureButton}
                 </Button>
               )}
-              title="Change your profile picture"
+              title={profilePictureTitle}
               multiple={false}
               onUpload={onProfilePhotoUpload}
             />
@@ -56,7 +58,7 @@ function Profile() {
             </Button>
           </Flex>
         </Flex>
-        <Flex direction="column" gap="2" ml="4">
+        <Flex direction="column" gap="2" ml="4" mt="2">
           <Text size="7">
             {user.firstName}
             {' '}

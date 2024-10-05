@@ -1,4 +1,5 @@
-import { Review } from '../api';
+import { MERCHANDISING_ROLES } from '../constants/Roles';
+import { Review, User } from '../api';
 
 /**
  * @deprecated
@@ -81,3 +82,10 @@ export const extractParamFromQuery = (key: string, pageQuery?: string | null) =>
   const searchParams = new URLSearchParams(pageQuery);
   return searchParams.get(key) ?? undefined;
 };
+
+/**
+ * Returns true if user can merchandise
+ *
+ * @param {User} user - The user we check the eligibility for.
+ */
+export const isUserAbleToMerchandise = (user?: User) => user?.roles?.some((role) => MERCHANDISING_ROLES.includes(role));

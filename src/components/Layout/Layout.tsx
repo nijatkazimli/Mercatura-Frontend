@@ -4,18 +4,20 @@ import {
 } from 'react-router-dom';
 import './Layout.css';
 import { isMobile } from 'react-device-detect';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Images from '../../constants/Images';
 import SearchBar from '../General/SearchBar';
 import { fetchData, ProductCategory } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
 import { getCarts, getProducts, getUser } from '../../redux/actions';
-import { extractParamFromQuery } from '../../common/utils';
+import { extractParamFromQuery, isUserAbleToMerchandise } from '../../common/utils';
+import { selectUser } from '../../redux/selectors';
 
 function Layout() {
   const [productCategories, setProductCategories] = useState<ProductCategory[]>([{ id: '', name: 'All Categories' }]);
   const { authResponse } = useContext(AuthContext);
+  const user = useSelector(selectUser);
   const pageQuery = useLocation().search;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -81,6 +83,11 @@ function Layout() {
           <NavLink to="/" className="link">
             Contact
           </NavLink>
+          {isUserAbleToMerchandise(user) && (
+            <NavLink to="/merchandising" className="link">
+              Merchandising
+            </NavLink>
+          )}
           {authResponse ? (
             <LayoutProfilePicture />
           )

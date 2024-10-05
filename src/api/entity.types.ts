@@ -3,6 +3,7 @@ export type User = {
   firstName: string,
   lastName: string,
   userName: string,
+  roles: Array<string>,
   profileImage?: string | null,
 }
 

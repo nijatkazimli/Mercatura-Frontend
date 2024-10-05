@@ -7,6 +7,7 @@ import { Authorization } from './components/Authorization';
 import Carts from './components/Cart/Carts';
 import Cart from './components/Cart/Cart';
 import Profile from './components/Profile/Profile';
+import Merchandising from './components/Merchandising/Merchandising';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
+      },
+      {
+        path: 'merchandising',
+        element: <Merchandising />,
       },
     ],
   },

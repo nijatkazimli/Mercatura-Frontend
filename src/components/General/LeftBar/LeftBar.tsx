@@ -171,7 +171,7 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
       className="leftBar"
       direction="column"
       gap="7"
-      style={{ padding: `${2 * upperPadding}px`, minHeight: '500px', height }}
+      style={{ padding: `${2 * upperPadding}px`, minHeight: '500px', height: height - 10 }}
     >
       <div>
         <p style={{ margin: '2px' }}>Sort By:</p>

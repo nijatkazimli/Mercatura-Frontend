@@ -22,8 +22,6 @@ function LoginPage({ isLogin }: Props) {
   const { setAuthResponse } = useContext(AuthContext);
   const navigate = useNavigate();
   const { height } = useWindowDimensions();
-  // TODO: add it to global constants
-  const layoutHeight = 80;
 
   const onAuthSubmitClicked = async () => {
     try {
@@ -51,7 +49,7 @@ function LoginPage({ isLogin }: Props) {
   };
 
   return (
-    <Flex direction="column" display="flex" className="login-page-container" style={{ height: height - layoutHeight }}>
+    <Flex direction="column" display="flex" className="login-page-container" style={{ height }}>
       <Box maxWidth="400px" className="login-form">
         {error && <Text color="red" mb="10px">{error}</Text>}
         <form onSubmit={handleSubmit}>

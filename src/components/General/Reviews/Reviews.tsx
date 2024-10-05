@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Separator } from '@radix-ui/themes';
-import { useSelector } from 'react-redux';
 import {
   fetchData, postData, Product, Review as ReviewType,
 } from '../../../api';

@@ -27,7 +27,7 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
   const [ratingRange, setRatingRange] = useState<number[]>([0, 5]);
   const [ratingRangePercentages, setRatingRangePercentages] = useState<number[]>([0, 100]);
 
-  const { scrollHeight } = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const pageQuery = useLocation().search;
   const navigate = useNavigate();
   const upperPadding = 10;
@@ -171,7 +171,7 @@ function LeftBar({ isLoading, initialPriceRange }: Props) {
       className="leftBar"
       direction="column"
       gap="7"
-      style={{ padding: `${2 * upperPadding}px`, minHeight: '500px', height: scrollHeight }}
+      style={{ padding: `${2 * upperPadding}px`, minHeight: '500px', height }}
     >
       <div>
         <p style={{ margin: '2px' }}>Sort By:</p>

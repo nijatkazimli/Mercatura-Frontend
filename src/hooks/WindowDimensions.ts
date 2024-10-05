@@ -6,17 +6,14 @@ const useWindowDimensions = () => {
   const upperPadding = 10;
   const [size, setSize] = useState({
     width: window.innerWidth,
-    height: window.innerHeight,
-    scrollHeight: document.documentElement.scrollHeight,
+    height: window.innerHeight - layoutHeight - upperPadding,
   });
 
   useEffect(() => {
     const handleResize = debounce(() => {
-      const { scrollHeight } = document.getElementsByClassName('product-grid')[0];
       setSize({
         width: window.innerWidth,
-        height: window.innerHeight,
-        scrollHeight: scrollHeight < window.innerHeight ? window.innerHeight - layoutHeight - upperPadding : scrollHeight,
+        height: window.innerHeight - layoutHeight - upperPadding,
       });
     }, 100);
     window.addEventListener('resize', handleResize);

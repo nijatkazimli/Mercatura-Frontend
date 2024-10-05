@@ -41,10 +41,10 @@ function Profile() {
           <Text mt="3">
             Set a new password
           </Text>
-          <TextField.Root placeholder="New password">
+          <TextField.Root placeholder="New password" type="password">
             <TextField.Slot />
           </TextField.Root>
-          <TextField.Root placeholder="Repeat password">
+          <TextField.Root placeholder="Repeat password" type="password">
             <TextField.Slot />
           </TextField.Root>
           <Button color="purple">

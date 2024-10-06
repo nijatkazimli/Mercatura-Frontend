@@ -1,58 +1,51 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import { Layout } from './components/Layout';
-import { HomePage } from './components/Home';
-import { ProductDetails } from './components/ProductDetails';
-import { Authorization } from './components/Authorization';
-import { Carts, Cart } from './components/Cart';
-import { Profile } from './components/Profile';
-import { Merchandising } from './components/Merchandising';
-import { AdminDashboard } from './components/AdminDashboard';
+import * as Pages from './components';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <Pages.Layout />,
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: <Pages.HomePage />,
       },
       {
         path: 'product/:id',
-        element: <ProductDetails />,
+        element: <Pages.ProductDetails />,
       },
       {
         path: 'auth/login',
-        element: <Authorization
+        element: <Pages.Authorization
           isLogin
         />,
       },
       {
         path: 'auth/register',
-        element: <Authorization
+        element: <Pages.Authorization
           isLogin={false}
         />,
       },
       {
         path: 'cart',
-        element: <Carts />,
+        element: <Pages.Carts />,
       },
       {
         path: 'cart/:id',
-        element: <Cart />,
+        element: <Pages.Cart />,
       },
       {
         path: 'profile',
-        element: <Profile />,
+        element: <Pages.Profile />,
       },
       {
         path: 'merchandising',
-        element: <Merchandising />,
+        element: <Pages.Merchandising />,
       },
       {
         path: 'admin',
-        element: <AdminDashboard />,
+        element: <Pages.AdminDashboard />,
       },
     ],
   },

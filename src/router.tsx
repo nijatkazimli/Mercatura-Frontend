@@ -1,13 +1,12 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from './components/Layout/Layout';
-import HomePage from './components/Home/HomePage';
-import ProductDetails from './components/ProductDetails/ProductDetails';
+import { Layout } from './components/Layout';
+import { HomePage } from './components/Home';
+import { ProductDetails } from './components/ProductDetails';
 import { Authorization } from './components/Authorization';
-import Carts from './components/Cart/Carts';
-import Cart from './components/Cart/Cart';
-import Profile from './components/Profile/Profile';
-import Merchandising from './components/Merchandising/Merchandising';
+import { Carts, Cart } from './components/Cart';
+import { Profile } from './components/Profile';
+import { Merchandising } from './components/Merchandising';
 
 const router = createBrowserRouter([
   {

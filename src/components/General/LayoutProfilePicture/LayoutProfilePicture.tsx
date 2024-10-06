@@ -3,6 +3,7 @@ import './LayoutProfilePicture.css';
 import { Avatar, DropdownMenu } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ExitIcon } from '@radix-ui/react-icons';
 import Images from '../../../constants/Images';
 import AuthContext from '../../../hooks/AuthContext';
 import { selectCarts, selectUser } from '../../../redux/selectors';
@@ -51,6 +52,7 @@ function LayoutProfilePicture() {
         <DropdownMenu.Separator />
         <DropdownMenu.Item onClick={logOut} color="red">
           Log Out
+          <ExitIcon />
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>

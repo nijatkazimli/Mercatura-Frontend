@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   NavLink, Outlet, useLocation, useNavigate,
 } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import Images from '../../constants/Images';
 import SearchBar from '../General/SearchBar';
-import { fetchData, ProductCategory, User } from '../../api';
+import { User } from '../../api';
 import AuthContext from '../../hooks/AuthContext';
 import LayoutProfilePicture from '../General/LayoutProfilePicture/LayoutProfilePicture';
 import {
@@ -15,12 +15,12 @@ import {
   setUser,
 } from '../../redux/actions';
 import { extractParamFromQuery, isUserAbleToMerchandise, isUserAdmin } from '../../common/utils';
-import { selectUser } from '../../redux/selectors';
+import { selectCategories, selectUser } from '../../redux/selectors';
 
 function Layout() {
-  const [productCategories, setProductCategories] = useState<ProductCategory[]>([{ id: '', name: 'All Categories' }]);
   const { authResponse } = useContext(AuthContext);
   const user = useSelector(selectUser);
+  const productCategories = useSelector(selectCategories);
   const pageQuery = useLocation().search;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,14 +53,6 @@ function Layout() {
     dispatch(getProducts());
     dispatch(getCategories());
   }, [dispatch]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const productCategories = await fetchData<ProductCategory[]>('/category');
-      setProductCategories([{ id: '', name: 'All Categories' }, ...productCategories]);
-    };
-    fetchCategories();
-  }, []);
 
   return (
     <div>

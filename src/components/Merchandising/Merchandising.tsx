@@ -39,10 +39,10 @@ function Merchandising() {
   const [productNameForDeletion, setProductNameForDeletion] = useState('');
 
   useEffect(() => {
-    if (!isUserAbleToMerchandise(user)) {
+    if (!isUserAbleToMerchandise(user) || !authResponse) {
       navigate('/');
     }
-  }, [user]);
+  }, [authResponse, user]);
 
   const onProductAdd = async () => {
     if (authResponse?.token) {

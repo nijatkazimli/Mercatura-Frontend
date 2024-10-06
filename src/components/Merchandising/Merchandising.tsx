@@ -1,12 +1,14 @@
 import {
+  AlertDialog,
   Box, Button, Flex, Select, Tabs, Text,
 } from '@radix-ui/themes';
 import React, { useContext, useEffect, useState } from 'react';
 import './Merchandising.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { TrashIcon } from '@radix-ui/react-icons';
 import {
-  AddProduct, IdResponse, postData, postImages,
+  AddProduct, deleteData, IdResponse, postData, postImages,
 } from '../../api';
 import { selectCategories, selectProducts, selectUser } from '../../redux/selectors';
 import { getNameById, isUserAbleToMerchandise } from '../../common/utils';
@@ -34,6 +36,7 @@ function Merchandising() {
     } as unknown as AddProduct,
   );
   const [productNameForPhoto, setProductNameForPhoto] = useState('');
+  const [productNameForDeletion, setProductNameForDeletion] = useState('');
 
   useEffect(() => {
     if (!isUserAbleToMerchandise(user)) {
@@ -67,6 +70,17 @@ function Merchandising() {
         await new Promise((resolve) => { setTimeout(resolve, 1000); });
         dispatch(getProducts());
         navigate(`/product/${id}`);
+      }
+    }
+  };
+
+  const onDeleteProduct = async () => {
+    if (authResponse?.token) {
+      const id = products.find((product) => product.name === productNameForDeletion)?.id;
+      if (id) {
+        await deleteData(`/product/${id}`, undefined, undefined, authResponse.token);
+        dispatch(getProducts());
+        navigate('/');
       }
     }
   };
@@ -132,6 +146,9 @@ function Merchandising() {
           </Tabs.Trigger>
           <Tabs.Trigger value="category" onClick={() => handlePageChange(2)}>
             Add category
+          </Tabs.Trigger>
+          <Tabs.Trigger value="delete_product" onClick={() => handlePageChange(3)}>
+            Delete product
           </Tabs.Trigger>
         </Tabs.List>
       </Tabs.Root>
@@ -261,6 +278,57 @@ function Merchandising() {
           <Button type="submit" color="purple" size="3" onClick={onCategoryAdd}>
             Add
           </Button>
+        </Flex>
+      )}
+      {page === 3 && (
+        <Flex mb="15px" direction="column" maxWidth="400px" p="6" gap="3">
+          <Select.Root
+            value={productNameForDeletion}
+            onValueChange={setProductNameForDeletion}
+            size="3"
+          >
+            <Select.Trigger
+              placeholder="Select Product"
+              radius="none"
+              className="dropdown-trigger"
+            />
+            <Select.Content color="purple">
+              <Select.Group>
+                {products.map((value) => (
+                  <React.Fragment key={value.id}>
+                    <Select.Item value={value.name}>{value.name}</Select.Item>
+                  </React.Fragment>
+                ))}
+              </Select.Group>
+            </Select.Content>
+          </Select.Root>
+          <AlertDialog.Root>
+            <AlertDialog.Trigger>
+              <Button color="red" style={{ fontFamily: 'Montserrat' }}>
+                <TrashIcon />
+                Delete
+              </Button>
+            </AlertDialog.Trigger>
+            <AlertDialog.Content maxWidth="450px">
+              <AlertDialog.Title>Delete the product</AlertDialog.Title>
+              <AlertDialog.Description size="2">
+                Are you sure? This product will not be recoverable.
+              </AlertDialog.Description>
+              <Flex gap="3" mt="4" justify="end">
+                <AlertDialog.Cancel>
+                  <Button variant="soft" color="gray">
+                    Cancel
+                  </Button>
+                </AlertDialog.Cancel>
+                <AlertDialog.Action>
+                  <Button variant="solid" color="red" onClick={onDeleteProduct}>
+                    Delete
+                  </Button>
+                </AlertDialog.Action>
+              </Flex>
+
+            </AlertDialog.Content>
+          </AlertDialog.Root>
         </Flex>
       )}
     </form>

@@ -98,7 +98,7 @@ export async function patchData<T>(path: string, body?: object, options?: Reques
   }
 }
 
-export async function deleteData<T>(path: string, body?: object, options?: RequestInit, returns = false): Promise<T | void> {
+export async function deleteData<T>(path: string, body?: object, options?: RequestInit, token?: string, returns = false): Promise<T | void> {
   const defaultOptions: RequestInit = {
     method: 'DELETE',
     headers: {
@@ -109,6 +109,10 @@ export async function deleteData<T>(path: string, body?: object, options?: Reque
 
   if (body) {
     defaultOptions.body = JSON.stringify(body);
+  }
+
+  if (token && defaultOptions.headers) {
+    (defaultOptions.headers as Record<string, string>).Authorization = `Bearer ${token}`;
   }
 
   try {

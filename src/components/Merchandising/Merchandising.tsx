@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import './Merchandising.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TrashIcon } from '@radix-ui/react-icons';
+import { PlusCircledIcon, TrashIcon, UploadIcon } from '@radix-ui/react-icons';
 import {
   AddProduct, deleteData, IdResponse, postData, postImages,
 } from '../../api';
@@ -211,6 +211,7 @@ function Merchandising() {
                 placeholder="Select Category"
                 radius="none"
                 className="dropdown-trigger"
+                style={{ fontFamily: 'Montserrat' }}
               />
               <Select.Content color="purple">
                 <Select.Group>
@@ -223,7 +224,8 @@ function Merchandising() {
               </Select.Content>
             </Select.Root>
           </Flex>
-          <Button type="submit" color="purple" size="3" onClick={onProductAdd}>
+          <Button type="submit" color="purple" size="3" style={{ fontFamily: 'Montserrat' }} onClick={onProductAdd}>
+            <PlusCircledIcon />
             Add
           </Button>
         </Flex>
@@ -239,6 +241,7 @@ function Merchandising() {
               placeholder="Select Product"
               radius="none"
               className="dropdown-trigger"
+              style={{ fontFamily: 'Montserrat' }}
             />
             <Select.Content color="purple">
               <Select.Group>
@@ -252,7 +255,8 @@ function Merchandising() {
           </Select.Root>
           <FileUploadPopup
             trigger={(
-              <Button color="purple" size="3" style={{ maxWidth: 210 }} disabled={!productNameForPhoto}>
+              <Button color="purple" size="3" style={{ maxWidth: 210, fontFamily: 'Montserrat' }} disabled={!productNameForPhoto}>
+                <UploadIcon />
                 Upload photos
               </Button>
             )}
@@ -275,7 +279,8 @@ function Merchandising() {
             placeholder="Enter the name"
             className="mercahdising-input"
           />
-          <Button type="submit" color="purple" size="3" onClick={onCategoryAdd}>
+          <Button type="submit" color="purple" size="3" style={{ fontFamily: 'Montserrat' }} onClick={onCategoryAdd}>
+            <PlusCircledIcon />
             Add
           </Button>
         </Flex>
@@ -291,6 +296,7 @@ function Merchandising() {
               placeholder="Select Product"
               radius="none"
               className="dropdown-trigger"
+              style={{ fontFamily: 'Montserrat' }}
             />
             <Select.Content color="purple">
               <Select.Group>

@@ -67,10 +67,12 @@ function SearchBar({
           <Select.Content color="purple">
             <Select.Group>
               {dropDownItemValues.map((value, index) => (
-                <React.Fragment key={value}>
-                  <Select.Item value={value}>{value}</Select.Item>
-                  {index === 0 && <Select.Separator />}
-                </React.Fragment>
+                value.length > 0 ? (
+                  <React.Fragment key={value}>
+                    <Select.Item value={value}>{value}</Select.Item>
+                    {index === 0 && <Select.Separator />}
+                  </React.Fragment>
+                ) : null
               ))}
             </Select.Group>
           </Select.Content>

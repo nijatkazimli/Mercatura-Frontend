@@ -44,15 +44,21 @@ function Carts() {
   };
 
   const onPayCart = async (id: string) => {
-    dispatch(payCart(id));
+    if (authResponse) {
+      dispatch(payCart({ id, token: authResponse.token }));
+    }
   };
 
   const onDeleteCart = async (id: string) => {
-    dispatch(deleteCart(id));
+    if (authResponse) {
+      dispatch(deleteCart({ id, token: authResponse.token }));
+    }
   };
 
   const onCreateCart = async () => {
-    dispatch(createCart(authResponse?.id ?? ''));
+    if (authResponse) {
+      dispatch(createCart({ id: authResponse.id, token: authResponse.token }));
+    }
   };
 
   return (

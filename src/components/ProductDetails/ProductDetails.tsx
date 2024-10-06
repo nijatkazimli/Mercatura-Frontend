@@ -30,14 +30,18 @@ function ProductDetails() {
   }, [id]);
 
   const onAddToCart = (cartId: string) => {
-    if (id && productDetails) {
-      dispatch(addToCart({ cartId, productId: id, productValue: productDetails.price }));
+    if (id && productDetails && authResponse) {
+      dispatch(addToCart({
+        cartId, productId: id, productValue: productDetails.price, token: authResponse.token,
+      }));
     }
   };
 
   const onAddToNewCart = () => {
     if (id && authResponse && productDetails) {
-      dispatch(addToNewCart({ userId: authResponse.id, productId: id, productValue: productDetails.price }));
+      dispatch(addToNewCart({
+        userId: authResponse.id, productId: id, productValue: productDetails.price, token: authResponse.token,
+      }));
     }
   };
 

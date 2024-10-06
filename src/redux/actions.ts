@@ -3,6 +3,7 @@ import {
 } from '../api';
 import {
   Actions,
+  IdWithToken,
   GET_PRODUCTS,
   GET_PRODUTCS_BY_IDS,
   SET_PRODUCTS,
@@ -17,12 +18,11 @@ import {
   ADD_TO_NEW_CART,
   GET_USER,
   SET_USER,
-  GetUserPayload,
   GET_CATEGORIES,
   SET_CATEGORIES,
 } from './action.types';
 
-export const getUser = (payload: GetUserPayload): GET_USER => ({
+export const getUser = (payload: IdWithToken): GET_USER => ({
   type: Actions.GET_USER,
   payload,
 });
@@ -55,9 +55,9 @@ export const setCategories = (categories: CategoriesResponse): SET_CATEGORIES =>
   payload: categories,
 });
 
-export const getCarts = (userId: string): GET_CARTS => ({
+export const getCarts = (payload: IdWithToken): GET_CARTS => ({
   type: Actions.GET_CARTS,
-  payload: userId,
+  payload,
 });
 
 export const setCarts = (carts: Array<CartResponse>): SET_CARTS => ({
@@ -75,17 +75,17 @@ export const addToNewCart = (payload: AddToNewCartPayload): ADD_TO_NEW_CART => (
   payload,
 });
 
-export const createCart = (userId: string): CREATE_CART => ({
+export const createCart = (payload: IdWithToken): CREATE_CART => ({
   type: Actions.CREATE_CART,
-  payload: userId,
+  payload,
 });
 
-export const payCart = (cartId: string): PAY_CART => ({
+export const payCart = (payload: IdWithToken): PAY_CART => ({
   type: Actions.PAY_CART,
-  payload: cartId,
+  payload,
 });
 
-export const deleteCart = (cartId: string): DELETE_CART => ({
+export const deleteCart = (payload: IdWithToken): DELETE_CART => ({
   type: Actions.DELETE_CART,
-  payload: cartId,
+  payload,
 });

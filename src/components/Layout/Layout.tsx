@@ -42,8 +42,8 @@ function Layout() {
 
   useEffect(() => {
     if (authResponse) {
-      dispatch(getCarts(authResponse.id));
-      dispatch(getUser({ userId: authResponse.id, token: authResponse.token }));
+      dispatch(getCarts({ id: authResponse.id, token: authResponse.token }));
+      dispatch(getUser({ id: authResponse.id, token: authResponse.token }));
     } else {
       dispatch(setUser({} as User));
     }

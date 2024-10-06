@@ -96,7 +96,7 @@ function Profile() {
       const { token } = authResponse;
       const { id } = user;
       await postImage(`/user/${id}/image`, profilePicture[0], token);
-      dispatch(getUser({ userId: id, token }));
+      dispatch(getUser({ id, token }));
     }
   };
 

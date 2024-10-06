@@ -1,4 +1,4 @@
-import { MERCHANDISING_ROLES } from '../constants/Roles';
+import ROLES, { MERCHANDISING_ROLES } from '../constants/Roles';
 import { Review, User } from '../api';
 
 /**
@@ -135,7 +135,7 @@ export const extractParamFromQuery = (
 /**
  * Returns true if user can merchandise
  *
- * @param {User} user - The user we check the eligibility for.
+ * @param {User | undefined} user - The user we check the eligibility for.
  */
 export const isUserAbleToMerchandise = (user?: User) => {
   if (!user?.roles) {
@@ -148,6 +148,24 @@ export const isUserAbleToMerchandise = (user?: User) => {
     return false;
   }
   return user?.roles?.some((role) => MERCHANDISING_ROLES.includes(role));
+};
+
+/**
+ * Returns true if user is admin
+ *
+ * @param {User | undefined} user - The user we check.
+ */
+export const isUserAdmin = (user?: User) => {
+  if (!user?.roles) {
+    return false;
+  }
+  if (Object.keys(user).length === 0) {
+    return false;
+  }
+  if (user.roles.length === 0) {
+    return false;
+  }
+  return user.roles.includes(ROLES.ADMIN);
 };
 
 export const getNameById = (

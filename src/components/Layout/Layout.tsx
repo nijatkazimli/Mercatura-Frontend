@@ -14,7 +14,7 @@ import {
   getCarts, getCategories, getProducts, getUser,
   setUser,
 } from '../../redux/actions';
-import { extractParamFromQuery, isUserAbleToMerchandise } from '../../common/utils';
+import { extractParamFromQuery, isUserAbleToMerchandise, isUserAdmin } from '../../common/utils';
 import { selectUser } from '../../redux/selectors';
 
 function Layout() {
@@ -92,6 +92,11 @@ function Layout() {
           {isUserAbleToMerchandise(user) && (
             <NavLink to="/merchandising" className="link">
               Merchandising
+            </NavLink>
+          )}
+          {isUserAdmin(user) && (
+            <NavLink to="/admin" className="link">
+              Admin
             </NavLink>
           )}
           {authResponse ? (

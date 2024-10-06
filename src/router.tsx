@@ -7,6 +7,7 @@ import { Authorization } from './components/Authorization';
 import { Carts, Cart } from './components/Cart';
 import { Profile } from './components/Profile';
 import { Merchandising } from './components/Merchandising';
+import { AdminDashboard } from './components/AdminDashboard';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: 'merchandising',
         element: <Merchandising />,
+      },
+      {
+        path: 'admin',
+        element: <AdminDashboard />,
       },
     ],
   },

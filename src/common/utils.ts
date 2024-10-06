@@ -26,11 +26,31 @@ export const getInitials = (fullName: string): string => {
 };
 
 export type Color =
-  | 'gray' | 'gold' | 'bronze' | 'brown' | 'yellow'
-  | 'amber' | 'orange' | 'tomato' | 'red' | 'ruby'
-  | 'crimson' | 'pink' | 'plum' | 'purple' | 'violet'
-  | 'iris' | 'indigo' | 'blue' | 'cyan' | 'teal'
-  | 'jade' | 'green' | 'grass' | 'lime' | 'mint'
+  | 'gray'
+  | 'gold'
+  | 'bronze'
+  | 'brown'
+  | 'yellow'
+  | 'amber'
+  | 'orange'
+  | 'tomato'
+  | 'red'
+  | 'ruby'
+  | 'crimson'
+  | 'pink'
+  | 'plum'
+  | 'purple'
+  | 'violet'
+  | 'iris'
+  | 'indigo'
+  | 'blue'
+  | 'cyan'
+  | 'teal'
+  | 'jade'
+  | 'green'
+  | 'grass'
+  | 'lime'
+  | 'mint'
   | 'sky';
 
 /**
@@ -42,10 +62,34 @@ export type Color =
  * @returns {Color} A random color name from the predefined list of colors, such as 'blue' or 'green'.
  */
 export const getRandomColor = (): Color => {
-  const colors: Color[] = ['gray', 'gold', 'bronze', 'brown', 'yellow',
-    'amber', 'orange', 'tomato', 'red', 'ruby', 'crimson', 'pink',
-    'plum', 'purple', 'violet', 'iris', 'indigo', 'blue', 'cyan',
-    'teal', 'jade', 'green', 'grass', 'lime', 'mint', 'sky'];
+  const colors: Color[] = [
+    'gray',
+    'gold',
+    'bronze',
+    'brown',
+    'yellow',
+    'amber',
+    'orange',
+    'tomato',
+    'red',
+    'ruby',
+    'crimson',
+    'pink',
+    'plum',
+    'purple',
+    'violet',
+    'iris',
+    'indigo',
+    'blue',
+    'cyan',
+    'teal',
+    'jade',
+    'green',
+    'grass',
+    'lime',
+    'mint',
+    'sky',
+  ];
 
   const randomIndex = Math.floor(Math.random() * colors.length);
 
@@ -77,8 +121,13 @@ export const roundToNearestTwoPlaces = (num: number): number => Math.round(num *
  * @param {string | null} [pageQuery] - The query string to extract the parameter from.
  * @returns {string | undefined} The value associated with the key, or `undefined` if not found.
  */
-export const extractParamFromQuery = (key: string, pageQuery?: string | null) => {
-  if (!pageQuery) { return undefined; }
+export const extractParamFromQuery = (
+  key: string,
+  pageQuery?: string | null,
+) => {
+  if (!pageQuery) {
+    return undefined;
+  }
   const searchParams = new URLSearchParams(pageQuery);
   return searchParams.get(key) ?? undefined;
 };
@@ -89,10 +138,19 @@ export const extractParamFromQuery = (key: string, pageQuery?: string | null) =>
  * @param {User} user - The user we check the eligibility for.
  */
 export const isUserAbleToMerchandise = (user?: User) => {
-  if (!user?.roles) { return false; }
-  if (Object.keys(user).length === 0) { return false; }
-  if (user.roles.length === 0) { return false; }
+  if (!user?.roles) {
+    return false;
+  }
+  if (Object.keys(user).length === 0) {
+    return false;
+  }
+  if (user.roles.length === 0) {
+    return false;
+  }
   return user?.roles?.some((role) => MERCHANDISING_ROLES.includes(role));
 };
 
-export const getNameById = (entities: { id: string, name: string }[], id: string) => entities.find((entity) => entity.id === id)?.name;
+export const getNameById = (
+  entities: { id: string; name: string }[],
+  id: string,
+) => entities.find((entity) => entity.id === id)?.name;

@@ -55,7 +55,7 @@ function Profile() {
       newPassword,
     };
     try {
-      await postData('/auth/change', body);
+      await postData('/auth/change', body, undefined, undefined, false);
       logOut();
     } catch (e) {
       setError('Failed to change the password!');
@@ -131,53 +131,65 @@ function Profile() {
           </Button>
         </Flex>
       </Flex>
-      <Flex direction="column" gap="2" ml="4" mt="2" minWidth="300px">
-        <Text size="7">
-          {user.firstName}
-          {' '}
-          {user.lastName}
-        </Text>
-        <Text size="5">{user.userName}</Text>
-        <Text mt="3">Set a new password</Text>
-        <TextField.Root
-          placeholder="Current password"
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-        >
-          <TextField.Slot />
-        </TextField.Root>
-        <TextField.Root
-          placeholder="New password"
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        >
-          <TextField.Slot />
-        </TextField.Root>
-        <TextField.Root
-          placeholder="Repeat password"
-          type="password"
-          value={repeatedNewPassword}
-          onChange={(e) => setRepeatedNewPassword(e.target.value)}
-        >
-          <TextField.Slot color="red" />
-        </TextField.Root>
-        <Tooltip content={toolTipContent}>
-          <Button color="purple" onClick={changePassword} disabled={isDisabled}>
-            <UpdateIcon />
-            Change Password
-          </Button>
-        </Tooltip>
-        {error && (
-          <Callout.Root color="red">
-            <Callout.Icon>
-              <ExclamationTriangleIcon color="red" />
-            </Callout.Icon>
-            <Callout.Text>{error}</Callout.Text>
-          </Callout.Root>
-        )}
-      </Flex>
+      <form>
+        <Flex direction="column" gap="2" ml="4" mt="2" minWidth="300px">
+          <Text size="7">
+            {user.firstName}
+            {' '}
+            {user.lastName}
+          </Text>
+          <Text size="5">{user.userName}</Text>
+          <Text mt="3">Set a new password</Text>
+          <TextField.Root
+            type="text"
+            autoComplete="username"
+            style={{ display: 'none' }} // Hidden but available for autofill
+          >
+            <TextField.Slot />
+          </TextField.Root>
+          <TextField.Root
+            placeholder="Current password"
+            type="password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            autoComplete="current-password"
+          >
+            <TextField.Slot />
+          </TextField.Root>
+          <TextField.Root
+            placeholder="New password"
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            autoComplete="new-password"
+          >
+            <TextField.Slot />
+          </TextField.Root>
+          <TextField.Root
+            placeholder="Repeat password"
+            type="password"
+            value={repeatedNewPassword}
+            onChange={(e) => setRepeatedNewPassword(e.target.value)}
+            autoComplete="new-password"
+          >
+            <TextField.Slot color="red" />
+          </TextField.Root>
+          <Tooltip content={toolTipContent}>
+            <Button color="purple" onClick={changePassword} disabled={isDisabled}>
+              <UpdateIcon />
+              Change Password
+            </Button>
+          </Tooltip>
+          {error && (
+            <Callout.Root color="red">
+              <Callout.Icon>
+                <ExclamationTriangleIcon color="red" />
+              </Callout.Icon>
+              <Callout.Text>{error}</Callout.Text>
+            </Callout.Root>
+          )}
+        </Flex>
+      </form>
     </Flex>
   ) : (
     <p>You are not logged in!</p>

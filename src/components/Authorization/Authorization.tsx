@@ -91,6 +91,7 @@ function LoginPage({ isLogin }: Props) {
               required
               placeholder="Enter your username"
               className="login-input"
+              autoComplete="username"
             />
           </Box>
           <Box mb="15px">
@@ -103,6 +104,7 @@ function LoginPage({ isLogin }: Props) {
               required
               placeholder="Enter your password"
               className="login-input"
+              autoComplete="current-password"
             />
           </Box>
           <Callout.Root className="callout-auth" variant="surface">

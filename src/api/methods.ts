@@ -3,7 +3,11 @@ const baseUrl = 'http://localhost:8080';
 // const baseUrl = 'http://192.168.0.109:8080';
 // const baseUrl = 'https://mercatura-backend-apim.azure-api.net';
 
-export async function fetchData<T>(path: string, options?: RequestInit, token?: string): Promise<T> {
+export async function fetchData<T>(
+  path: string,
+  options?: RequestInit,
+  token?: string,
+): Promise<T> {
   const defaultOptions: RequestInit = {
     method: 'GET',
     headers: {
@@ -13,7 +17,9 @@ export async function fetchData<T>(path: string, options?: RequestInit, token?: 
   };
 
   if (token && defaultOptions.headers) {
-    (defaultOptions.headers as Record<string, string>).Authorization = `Bearer ${token}`;
+    (
+      defaultOptions.headers as Record<string, string>
+    ).Authorization = `Bearer ${token}`;
   }
 
   try {
@@ -32,7 +38,13 @@ export async function fetchData<T>(path: string, options?: RequestInit, token?: 
   }
 }
 
-export async function postData<T>(path: string, body?: object, options?: RequestInit, token?: string): Promise<T> {
+export async function postData<T>(
+  path: string,
+  body?: object,
+  options?: RequestInit,
+  token?: string,
+  isJsonResponse = true,
+): Promise<T> {
   const defaultOptions: RequestInit = {
     method: 'POST',
     headers: {
@@ -46,7 +58,9 @@ export async function postData<T>(path: string, body?: object, options?: Request
   }
 
   if (token && defaultOptions.headers) {
-    (defaultOptions.headers as Record<string, string>).Authorization = `Bearer ${token}`;
+    (
+      defaultOptions.headers as Record<string, string>
+    ).Authorization = `Bearer ${token}`;
   }
 
   try {
@@ -54,8 +68,11 @@ export async function postData<T>(path: string, body?: object, options?: Request
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data: T = await response.json();
-    return data;
+    if (isJsonResponse) {
+      const data: T = await response.json();
+      return data;
+    }
+    return response as T;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(`Post error: ${error.message}`);
@@ -65,7 +82,12 @@ export async function postData<T>(path: string, body?: object, options?: Request
   }
 }
 
-export async function patchData<T>(path: string, body?: object, options?: RequestInit, returns = false): Promise<T | void> {
+export async function patchData<T>(
+  path: string,
+  body?: object,
+  options?: RequestInit,
+  returns = false,
+): Promise<T | void> {
   const defaultOptions: RequestInit = {
     method: 'PATCH',
     headers: {
@@ -98,7 +120,13 @@ export async function patchData<T>(path: string, body?: object, options?: Reques
   }
 }
 
-export async function deleteData<T>(path: string, body?: object, options?: RequestInit, token?: string, returns = false): Promise<T | void> {
+export async function deleteData<T>(
+  path: string,
+  body?: object,
+  options?: RequestInit,
+  token?: string,
+  returns = false,
+): Promise<T | void> {
   const defaultOptions: RequestInit = {
     method: 'DELETE',
     headers: {
@@ -112,7 +140,9 @@ export async function deleteData<T>(path: string, body?: object, options?: Reque
   }
 
   if (token && defaultOptions.headers) {
-    (defaultOptions.headers as Record<string, string>).Authorization = `Bearer ${token}`;
+    (
+      defaultOptions.headers as Record<string, string>
+    ).Authorization = `Bearer ${token}`;
   }
 
   try {
@@ -162,7 +192,11 @@ export async function postImage(path: string, file: File, token: string) {
   }
 }
 
-export async function postImages(path: string, files: Array<File>, token: string) {
+export async function postImages(
+  path: string,
+  files: Array<File>,
+  token: string,
+) {
   const uploadPromises = files.map((file) => postImage(path, file, token));
   Promise.all(uploadPromises);
 }

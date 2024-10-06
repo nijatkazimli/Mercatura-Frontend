@@ -19,4 +19,8 @@ export type {
   ProductsResponse,
   AddProduct,
   CategoriesResponse,
+  UserStatistics,
+  ProductStatistics,
+  CartStatistics,
+  Statistics,
 } from './entity.types';

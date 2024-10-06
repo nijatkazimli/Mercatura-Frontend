@@ -64,3 +64,26 @@ export type ProductsResponse = {
 export type CartsResponse = Array<CartResponse>;
 
 export type CategoriesResponse = Array<ProductCategory>;
+
+export type UserStatistics = {
+  totalCount: number,
+  adminCount: number,
+  merchandiserCount: number,
+  regularUserCount: number,
+};
+
+export type ProductStatistics = {
+  totalCount: number,
+  totalPrice: number,
+};
+
+export type CartStatistics = {
+  totalCount: number,
+  totalPrice: number,
+  paidCount: number,
+  paidPrice: number,
+  unPaidCount: number,
+  unPaidPrice: number,
+};
+
+export type Statistics = UserStatistics | ProductStatistics | CartStatistics;

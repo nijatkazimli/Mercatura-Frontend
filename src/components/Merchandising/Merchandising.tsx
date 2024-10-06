@@ -66,7 +66,7 @@ function Merchandising() {
         await postImages(`/product/${id}/image`, files, authResponse.token);
         await new Promise((resolve) => { setTimeout(resolve, 1000); });
         dispatch(getProducts());
-        navigate('/');
+        navigate(`/product/${id}`);
       }
     }
   };
@@ -85,6 +85,7 @@ function Merchandising() {
     setPage(pageNum);
     setNewCategoryName('');
     setNewProductDetails({} as AddProduct);
+    setProductNameForPhoto('');
   };
 
   const setNewProductName = (name: string) => {

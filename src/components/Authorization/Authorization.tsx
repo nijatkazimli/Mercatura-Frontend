@@ -1,13 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  Box, Button, Callout, Flex, Text,
+  Box, Button, Callout, Flex, Select, Text,
 } from '@radix-ui/themes';
 import './Authorization.css';
 import { QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
-import { postData, AuthResponse } from '../../api';
+import {
+  postData, AuthResponse, RolesResponse, fetchData,
+} from '../../api';
 import AuthContext from '../../hooks/AuthContext';
 import useWindowDimensions from '../../hooks/WindowDimensions';
+import { toTitleCase } from '../../common/utils';
+import ROLES from '../../constants/Roles';
 
 type Props = {
   isLogin: boolean,
@@ -18,15 +22,38 @@ function LoginPage({ isLogin }: Props) {
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [roles, setRoles] = useState<RolesResponse>();
+  const [selectedRole, setSelectedRole] = useState<string>();
   const [error, setError] = useState<string | null>(null);
   const { setAuthResponse } = useContext(AuthContext);
   const navigate = useNavigate();
   const { height } = useWindowDimensions();
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const fetchedRoles = await fetchData<RolesResponse>('/auth/role');
+        setRoles(fetchedRoles);
+      } catch (e) {
+        setError('Failed to get roles');
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (isLogin) {
+      setFirstName('');
+      setLastName('');
+      setSelectedRole(undefined);
+    }
+  }, [isLogin]);
+
   const onAuthSubmitClicked = async () => {
     try {
       const loginBody = { username, password };
-      const registerBody = { ...loginBody, firstName, lastName };
+      const registerBody = {
+        ...loginBody, firstName, lastName, role: selectedRole,
+      };
       const path = `/auth/${isLogin ? 'login' : 'register'}`;
       const authResponse = await postData<AuthResponse>(path, isLogin ? loginBody : registerBody);
       setAuthResponse(authResponse);
@@ -45,6 +72,7 @@ function LoginPage({ isLogin }: Props) {
     setLastName('');
     setUsername('');
     setPassword('');
+    setSelectedRole(undefined);
     setError(null);
   };
 
@@ -79,6 +107,23 @@ function LoginPage({ isLogin }: Props) {
                   className="login-input"
                 />
               </Box>
+              {roles && (
+                <Flex mb="15px" direction="row" justify="between" align="center">
+                  <Text as="label" htmlFor="role">Role</Text>
+                  <Select.Root value={selectedRole} onValueChange={setSelectedRole} defaultValue={ROLES.USER}>
+                    <Select.Trigger placeholder="Role" />
+                    <Select.Content color="purple">
+                      <Select.Group>
+                        {roles.roles.map((role) => (
+                          <Select.Item key={role} value={role}>
+                            {toTitleCase(role)}
+                          </Select.Item>
+                        ))}
+                      </Select.Group>
+                    </Select.Content>
+                  </Select.Root>
+                </Flex>
+              )}
             </>
           )}
           <Box mb="15px">

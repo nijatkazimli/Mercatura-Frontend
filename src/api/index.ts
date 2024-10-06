@@ -23,4 +23,5 @@ export type {
   ProductStatistics,
   CartStatistics,
   Statistics,
+  RolesResponse,
 } from './entity.types';

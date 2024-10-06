@@ -87,3 +87,7 @@ export type CartStatistics = {
 };
 
 export type Statistics = UserStatistics | ProductStatistics | CartStatistics;
+
+export type RolesResponse = {
+  roles: Array<string>
+};

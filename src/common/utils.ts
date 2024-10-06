@@ -168,7 +168,23 @@ export const isUserAdmin = (user?: User) => {
   return user.roles.includes(ROLES.ADMIN);
 };
 
+/**
+ * Returns the name of the entity with a given id
+ *
+ * @param {{ id: string; name: string }[]} entities - named entities.
+ */
 export const getNameById = (
   entities: { id: string; name: string }[],
   id: string,
 ) => entities.find((entity) => entity.id === id)?.name;
+
+/**
+ * Converts a string to title case.
+ *
+ * @param {string} sentence - The string to be converted to title case.
+ * @returns {string} The converted string with the first letter of each word capitalized.
+ */
+export const toTitleCase = (sentence: string): string => sentence
+  .split(' ')
+  .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  .join(' ');

@@ -31,7 +31,7 @@ function Merchandising() {
     {
       name: '',
       description: '',
-      price: undefined,
+      price: 0,
       categoryId: '',
     } as unknown as AddProduct,
   );
@@ -94,6 +94,14 @@ function Merchandising() {
       navigate('/');
     }
   };
+
+  const isProductAddDisabled = () => {
+    const { price, name, categoryId } = newProductDetails || {};
+    return !price || !name || !categoryId;
+  };
+  const isImageAddDisabled = () => !productNameForPhoto;
+  const isCategoryAddDisabled = () => !newCategoryName;
+  const isProductDeleteDisabled = () => !productNameForDeletion;
 
   const handlePageChange = (pageNum: number) => {
     setPage(pageNum);
@@ -190,7 +198,12 @@ function Merchandising() {
               step="0.01"
               value={newProductDetails.price}
               onChange={(e) => {
-                setNewProductPrice(e.target.value);
+                const value = parseFloat(e.target.value);
+                if (value > 0 || e.target.value === '') {
+                  setNewProductPrice(e.target.value);
+                } else {
+                  setNewProductPrice('');
+                }
               }}
               required
               placeholder="Enter the price"
@@ -224,7 +237,7 @@ function Merchandising() {
               </Select.Content>
             </Select.Root>
           </Flex>
-          <Button type="submit" color="purple" size="3" style={{ fontFamily: 'Montserrat' }} onClick={onProductAdd}>
+          <Button type="submit" color="purple" size="3" style={{ fontFamily: 'Montserrat' }} onClick={onProductAdd} disabled={isProductAddDisabled()}>
             <PlusCircledIcon />
             Add
           </Button>
@@ -255,7 +268,7 @@ function Merchandising() {
           </Select.Root>
           <FileUploadPopup
             trigger={(
-              <Button color="purple" size="3" style={{ maxWidth: 210, fontFamily: 'Montserrat' }} disabled={!productNameForPhoto}>
+              <Button color="purple" size="3" style={{ fontFamily: 'Montserrat' }} disabled={isImageAddDisabled()}>
                 <UploadIcon />
                 Upload photos
               </Button>
@@ -279,7 +292,14 @@ function Merchandising() {
             placeholder="Enter the name"
             className="mercahdising-input"
           />
-          <Button type="submit" color="purple" size="3" style={{ fontFamily: 'Montserrat' }} onClick={onCategoryAdd}>
+          <Button
+            type="submit"
+            color="purple"
+            size="3"
+            style={{ fontFamily: 'Montserrat' }}
+            onClick={onCategoryAdd}
+            disabled={isCategoryAddDisabled()}
+          >
             <PlusCircledIcon />
             Add
           </Button>
@@ -310,7 +330,7 @@ function Merchandising() {
           </Select.Root>
           <AlertDialog.Root>
             <AlertDialog.Trigger>
-              <Button color="red" style={{ fontFamily: 'Montserrat' }}>
+              <Button color="red" style={{ fontFamily: 'Montserrat' }} disabled={isProductDeleteDisabled()}>
                 <TrashIcon />
                 Delete
               </Button>
@@ -332,7 +352,6 @@ function Merchandising() {
                   </Button>
                 </AlertDialog.Action>
               </Flex>
-
             </AlertDialog.Content>
           </AlertDialog.Root>
         </Flex>

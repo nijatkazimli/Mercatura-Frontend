@@ -17,13 +17,13 @@ type Props = {
   isLogin: boolean,
 }
 
-function LoginPage({ isLogin }: Props) {
+function LoginPage({ isLogin }: Readonly<Props>) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [roles, setRoles] = useState<RolesResponse>();
-  const [selectedRole, setSelectedRole] = useState<string>();
+  const [selectedRole, setSelectedRole] = useState<string>(ROLES.USER);
   const [error, setError] = useState<string | null>(null);
   const { setAuthResponse } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ function LoginPage({ isLogin }: Props) {
     if (isLogin) {
       setFirstName('');
       setLastName('');
-      setSelectedRole(undefined);
+      setSelectedRole(ROLES.USER);
     }
   }, [isLogin]);
 
@@ -72,7 +72,7 @@ function LoginPage({ isLogin }: Props) {
     setLastName('');
     setUsername('');
     setPassword('');
-    setSelectedRole(undefined);
+    setSelectedRole(ROLES.USER);
     setError(null);
   };
 

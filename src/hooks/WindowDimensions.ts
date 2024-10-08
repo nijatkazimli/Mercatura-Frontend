@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { debounce } from 'lodash';
 
 const useWindowDimensions = () => {
   const layoutHeight = 80;
@@ -9,16 +8,17 @@ const useWindowDimensions = () => {
   });
 
   useEffect(() => {
-    const handleResize = debounce(() => {
+    const handleResize = () => {
+      const { innerWidth, innerHeight } = window;
+      const element = document.getElementsByClassName('product-grid');
       setSize({
-        width: window.innerWidth,
-        height: window.innerHeight - layoutHeight,
+        width: innerWidth,
+        height: Math.max(innerHeight - layoutHeight, (element?.[0]?.scrollHeight ?? 0) + 40),
       });
-    }, 100);
+    };
     window.addEventListener('resize', handleResize);
 
     return () => {
-      handleResize.cancel();
       window.removeEventListener('resize', handleResize);
     };
   }, []);

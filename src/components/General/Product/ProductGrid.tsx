@@ -10,7 +10,7 @@ type Props = {
   isHome?: boolean,
 };
 
-function ProductGrid({ products, isLoading = false, isHome = true }: Props) {
+function ProductGrid({ products, isLoading = false, isHome = true }: Readonly<Props>) {
   const { width } = useWindowDimensions();
   const leftBarWidth = 255;
   const productTileWidth = 225;

@@ -16,13 +16,12 @@
 .link {
     text-decoration: none;
     font-weight: bold;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat', sans-serif;
     color: whitesmoke;
     margin-left: 10px;
-    transition: color 0.3s ease;
     display: inline-block;
     padding: 10px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .link:hover {
@@ -43,7 +42,7 @@
     transform: scale(1.1);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
     .navbar {
         flex-direction: column;
         height: auto;

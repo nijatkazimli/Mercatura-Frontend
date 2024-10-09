@@ -1,5 +1,11 @@
 .contact-page-container {
-    background-color: #d3d3d3;
-    justify-content: center;
-    align-items: center;
+  background-color: #d3d3d3;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-page-info-box {
+  background-color: white;
+  border-radius: 30px;
+  margin-bottom: 150px;
 }

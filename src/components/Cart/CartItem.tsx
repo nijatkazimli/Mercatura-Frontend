@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-  AlertDialog, Badge, Button, Flex,
+  Badge, Button, Flex,
 } from '@radix-ui/themes';
 import { ArrowRightIcon, TrashIcon, CheckIcon } from '@radix-ui/react-icons';
 import { isMobile } from 'react-device-detect';
 import { CartUI } from './Carts';
 import './CartItem.css';
 import { Color } from '../../common/utils';
+import { AlertDialog } from '../General/AlertDialog';
 
 type ExtraProps = {
   index: number;
@@ -58,33 +59,17 @@ function CartItem({
           <ArrowRightIcon />
           See Cart Items
         </Button>
-        <AlertDialog.Root>
-          <AlertDialog.Trigger>
+        <AlertDialog
+          trigger={(
             <Button color="red" style={{ fontFamily: 'Montserrat' }}>
               <TrashIcon />
               Delete
             </Button>
-          </AlertDialog.Trigger>
-          <AlertDialog.Content maxWidth="450px">
-            <AlertDialog.Title>Delete the cart</AlertDialog.Title>
-            <AlertDialog.Description size="2">
-              Are you sure? This cart will not be recoverable.
-            </AlertDialog.Description>
-            <Flex gap="3" mt="4" justify="end">
-              <AlertDialog.Cancel>
-                <Button variant="soft" color="gray">
-                  Cancel
-                </Button>
-              </AlertDialog.Cancel>
-              <AlertDialog.Action>
-                <Button variant="solid" color="red" onClick={() => onDeleteCart(id)}>
-                  Delete
-                </Button>
-              </AlertDialog.Action>
-            </Flex>
-
-          </AlertDialog.Content>
-        </AlertDialog.Root>
+          )}
+          title="Delete the cart"
+          description="Are you sure? This cart will not be recoverable."
+          onDeleteClick={() => onDeleteCart(id)}
+        />
       </Flex>
     </Flex>
   );

@@ -37,7 +37,7 @@ import {
   setCarts, setCategories, setProducts, setUser,
 } from './actions';
 
-function* getUserSaga(
+export function* getUserSaga(
   action: GET_USER,
 ): Generator<CallEffect | PutEffect, void, User> {
   const { id, token } = action.payload;
@@ -50,7 +50,7 @@ function* getUserSaga(
   }
 }
 
-function* getProductsSaga(): Generator<
+export function* getProductsSaga(): Generator<
   CallEffect | PutEffect,
   void,
   ProductsResponse
@@ -64,7 +64,7 @@ function* getProductsSaga(): Generator<
   }
 }
 
-function* getCategoriesSaga(): Generator<
+export function* getCategoriesSaga(): Generator<
   CallEffect | PutEffect,
   void,
   CategoriesResponse
@@ -80,7 +80,7 @@ function* getCategoriesSaga(): Generator<
   }
 }
 
-function* getProductsByIdsSaga(
+export function* getProductsByIdsSaga(
   action: GET_PRODUTCS_BY_IDS,
 ): Generator<
   SelectEffect | AllEffect<CallEffect<Product>> | CallEffect | PutEffect,
@@ -112,7 +112,7 @@ function* getProductsByIdsSaga(
   }
 }
 
-function* getCartsSaga(
+export function* getCartsSaga(
   action: GET_CARTS,
 ): Generator<CallEffect | PutEffect, void, Array<CartResponse>> {
   try {
@@ -130,7 +130,7 @@ function* getCartsSaga(
   }
 }
 
-function* createCartSaga(
+export function* createCartSaga(
   action: CREATE_CART,
 ): Generator<
   CallEffect | SelectEffect | PutEffect,
@@ -161,7 +161,7 @@ function* createCartSaga(
   }
 }
 
-function* deleteCartSaga(
+export function* deleteCartSaga(
   action: DELETE_CART,
 ): Generator<CallEffect | SelectEffect | PutEffect, void, Array<CartResponse>> {
   try {
@@ -176,7 +176,7 @@ function* deleteCartSaga(
   }
 }
 
-function* addToCartSaga(
+export function* addToCartSaga(
   action: ADD_TO_CART,
 ): Generator<CallEffect | SelectEffect | PutEffect, void, Array<CartResponse>> {
   try {
@@ -208,7 +208,7 @@ function* addToCartSaga(
   }
 }
 
-function* addToNewCartSaga(
+export function* addToNewCartSaga(
   action: ADD_TO_NEW_CART,
 ): Generator<
   CallEffect | SelectEffect | PutEffect,
@@ -248,7 +248,7 @@ function* addToNewCartSaga(
   }
 }
 
-function* payCartSaga(
+export function* payCartSaga(
   action: PAY_CART,
 ): Generator<CallEffect | SelectEffect | PutEffect, void, Array<CartResponse>> {
   try {
@@ -271,7 +271,7 @@ function* payCartSaga(
   }
 }
 
-function* cartSaga() {
+function* rootSaga() {
   yield takeEvery(Actions.GET_USER, getUserSaga);
   yield takeEvery(Actions.GET_PRODUTCS, getProductsSaga);
   yield takeEvery(Actions.GET_CATEGORIES, getCategoriesSaga);
@@ -284,4 +284,4 @@ function* cartSaga() {
   yield takeEvery(Actions.PAY_CART, payCartSaga);
 }
 
-export default cartSaga;
+export default rootSaga;

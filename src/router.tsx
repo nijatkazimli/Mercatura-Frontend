@@ -51,6 +51,10 @@ const router = createBrowserRouter([
         path: 'admin',
         element: <Pages.AdminDashboard />,
       },
+      {
+        path: '*',
+        element: <Pages.ErrorPage />,
+      },
     ],
   },
 ]);

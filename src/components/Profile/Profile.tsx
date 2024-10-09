@@ -123,7 +123,11 @@ function Profile() {
           <Flex gap="3">
             <FileUploadPopup
               trigger={(
-                <Button color="purple" size="3" style={{ fontFamily: 'Montserrat' }}>
+                <Button
+                  color="purple"
+                  size="3"
+                  style={{ fontFamily: 'Montserrat' }}
+                >
                   {profilePictureButtonIcon}
                   {profilePictureButton}
                 </Button>
@@ -144,7 +148,11 @@ function Profile() {
           </Flex>
           <AlertDialog
             trigger={(
-              <Button color="red" size="3" style={{ maxWidth: 240, fontFamily: 'Montserrat' }}>
+              <Button
+                color="red"
+                size="3"
+                style={{ maxWidth: 240, fontFamily: 'Montserrat' }}
+              >
                 <TrashIcon />
                 Delete your account
               </Button>
@@ -199,7 +207,12 @@ function Profile() {
             <TextField.Slot color="red" />
           </TextField.Root>
           <Tooltip content={toolTipContent}>
-            <Button color="purple" onClick={changePassword} disabled={isDisabled} style={{ fontFamily: 'Montserrat' }}>
+            <Button
+              color="purple"
+              onClick={changePassword}
+              disabled={isDisabled}
+              style={{ fontFamily: 'Montserrat' }}
+            >
               <UpdateIcon />
               Change Password
             </Button>

@@ -9,6 +9,7 @@ import {
   ExclamationTriangleIcon,
   ExitIcon,
   PlusCircledIcon,
+  TrashIcon,
   UpdateIcon,
 } from '@radix-ui/react-icons';
 import { selectUser } from '../../redux/selectors';
@@ -16,8 +17,9 @@ import './Profile.css';
 import Images from '../../constants/Images';
 import AuthContext from '../../hooks/AuthContext';
 import FileUploadPopup from '../General/FileUploadPopup/FileUploadPopup';
-import { postData, postImage } from '../../api';
+import { deleteData, postData, postImage } from '../../api';
 import { getUser } from '../../redux/actions';
+import { AlertDialog } from '../General/AlertDialog';
 
 function Profile() {
   const user = useSelector(selectUser);
@@ -46,6 +48,15 @@ function Profile() {
   const logOut = () => {
     setAuthResponse(null);
     navigate('/');
+  };
+
+  const deleteAccount = async () => {
+    if (user && authResponse) {
+      const userId = user.id;
+      const { token } = authResponse;
+      await deleteData(`/user/${userId}`, undefined, undefined, token);
+      logOut();
+    }
   };
 
   const changePassword = async () => {
@@ -108,27 +119,40 @@ function Profile() {
           alt={Images.defaultProfilePicture.alt}
           className="profile-image"
         />
-        <Flex direction="row" gap="3">
-          <FileUploadPopup
+        <Flex direction="column" gap="3" justify="center" align="center">
+          <Flex gap="3">
+            <FileUploadPopup
+              trigger={(
+                <Button color="purple" size="3" style={{ fontFamily: 'Montserrat' }}>
+                  {profilePictureButtonIcon}
+                  {profilePictureButton}
+                </Button>
+              )}
+              title={profilePictureTitle}
+              multiple={false}
+              onUpload={onProfilePhotoUpload}
+            />
+            <Button
+              onClick={logOut}
+              color="red"
+              size="3"
+              style={{ fontFamily: 'Montserrat' }}
+            >
+              <ExitIcon />
+              Log Out
+            </Button>
+          </Flex>
+          <AlertDialog
             trigger={(
-              <Button color="purple" size="3" style={{ maxWidth: 230 }}>
-                {profilePictureButtonIcon}
-                {profilePictureButton}
+              <Button color="red" size="3" style={{ maxWidth: 240, fontFamily: 'Montserrat' }}>
+                <TrashIcon />
+                Delete your account
               </Button>
             )}
-            title={profilePictureTitle}
-            multiple={false}
-            onUpload={onProfilePhotoUpload}
+            title="Are you sure to delete your account?"
+            description="Your account will not be recoverable"
+            onDeleteClick={deleteAccount}
           />
-          <Button
-            onClick={logOut}
-            color="red"
-            size="3"
-            style={{ maxWidth: 120 }}
-          >
-            <ExitIcon />
-            Log Out
-          </Button>
         </Flex>
       </Flex>
       <form>
@@ -175,7 +199,7 @@ function Profile() {
             <TextField.Slot color="red" />
           </TextField.Root>
           <Tooltip content={toolTipContent}>
-            <Button color="purple" onClick={changePassword} disabled={isDisabled}>
+            <Button color="purple" onClick={changePassword} disabled={isDisabled} style={{ fontFamily: 'Montserrat' }}>
               <UpdateIcon />
               Change Password
             </Button>

@@ -75,7 +75,7 @@ function Layout() {
           <NavLink to="/" className="link">
             Home
           </NavLink>
-          <NavLink to="/" className="link">
+          <NavLink to="/contact" className="link">
             Contact
           </NavLink>
           {isUserAbleToMerchandise(user) && (

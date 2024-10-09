@@ -6,3 +6,4 @@ export { Layout } from './Layout';
 export { Merchandising } from './Merchandising';
 export { ProductDetails } from './ProductDetails';
 export { Profile } from './Profile';
+export { Contact } from './Contact';

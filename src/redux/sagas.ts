@@ -89,7 +89,7 @@ export function* getProductsByIdsSaga(
 > {
   try {
     const productIdsToFetch = action.payload;
-    const existingProducts = yield select(selectProducts);
+    const existingProducts: ProductsResponse = yield select(selectProducts);
     const existingProductsIds = existingProducts.products.map((p) => p.id);
 
     const nonExistingProductsIds = productIdsToFetch.filter(
@@ -102,7 +102,7 @@ export function* getProductsByIdsSaga(
       yield put(
         setProducts({
           ...existingProducts,
-          products: [...existingProducts, ...fetchedProducts],
+          products: [...existingProducts.products, ...fetchedProducts],
         }),
       );
     }

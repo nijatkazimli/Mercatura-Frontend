@@ -10,7 +10,7 @@ export const selectProductsByIds = (productIds: Array<string>) => createSelector
 );
 export const selectProductsByCategory = (category?: string) => createSelector(
   [selectProducts],
-  (products) => products.products.filter((product) => product.category === category) ?? [],
+  (products) => (category ? (products.products.filter((product) => product.category === category)) : []),
 );
 
 export const selectCarts = (state: StateType) => state.carts;

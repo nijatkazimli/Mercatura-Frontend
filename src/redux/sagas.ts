@@ -46,7 +46,7 @@ export function* getUserSaga(
     yield put(setUser(user));
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error(e ? JSON.stringify(e) : 'Error fetching products');
+    console.error(e ? JSON.stringify(e) : 'Error fetching user');
   }
 }
 

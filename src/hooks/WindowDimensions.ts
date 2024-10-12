@@ -12,7 +12,7 @@ const useWindowDimensions = () => {
       const { innerWidth } = window;
       setSize({
         width: innerWidth,
-        height: element?.[0]?.scrollHeight,
+        height: Math.max(element?.[0]?.scrollHeight, window.innerHeight - 80),
       });
     };
     window.addEventListener('resize', handleResize);
@@ -25,7 +25,7 @@ const useWindowDimensions = () => {
   useEffect(() => {
     setSize((prevSize) => ({
       ...prevSize,
-      height: element?.[0]?.scrollHeight,
+      height: Math.max(element?.[0]?.scrollHeight, window.innerHeight - 80),
     }));
   }, [element?.[0]?.scrollHeight]);
 

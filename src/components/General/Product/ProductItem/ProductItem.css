@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     margin: 10px;
     border: 2px solid transparent;
@@ -23,8 +23,9 @@ p {
 
 .image {
     padding: 20px 20px 0px;
-    object-fit: cover;
+    object-fit: contain;
     width: 85%;
+    max-height: 180px;
 }
 
 .name-and-price {

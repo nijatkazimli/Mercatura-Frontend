@@ -14,7 +14,7 @@ import { selectCategories, selectProducts, selectUser } from '../../redux/select
 import { getNameById, isUserAbleToMerchandise } from '../../common/utils';
 import FileUploadPopup from '../General/FileUploadPopup/FileUploadPopup';
 import AuthContext from '../../hooks/AuthContext';
-import { getCategories, getProducts } from '../../redux/actions';
+import { getCarts, getCategories, getProducts } from '../../redux/actions';
 
 function Merchandising() {
   const categories = useSelector(selectCategories).slice(1);
@@ -80,6 +80,7 @@ function Merchandising() {
       if (id) {
         await deleteData(`/product/${id}`, undefined, undefined, authResponse.token);
         dispatch(getProducts());
+        dispatch(getCarts({ id: authResponse.id, token: authResponse.token }));
         navigate('/');
       }
     }

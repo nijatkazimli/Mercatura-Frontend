@@ -70,7 +70,7 @@ function HomePage() {
     <div className="layout">
       { !isMobile && <LeftBar isLoading={isLoading} initialPriceRange={products.priceRange} /> }
       <Flex direction="column">
-        <ProductGrid isLoading={isLoading} products={products.products} />
+        <ProductGrid products={products.products} />
         <Flex align="center" mb="3" gap="5" style={{ alignSelf: 'center' }}>
           {showBack
             && (

@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 
 const useWindowDimensions = () => {
-  const layoutHeight = 80;
+  const element = document.getElementsByClassName('layout');
   const [size, setSize] = useState({
     width: window.innerWidth,
-    height: window.innerHeight - layoutHeight,
+    height: element?.[0]?.scrollHeight,
   });
 
   useEffect(() => {
     const handleResize = () => {
-      const { innerWidth, innerHeight } = window;
-      const element = document.getElementsByClassName('product-grid');
+      const { innerWidth } = window;
       setSize({
         width: innerWidth,
-        height: Math.max(innerHeight - layoutHeight, (element?.[0]?.scrollHeight ?? 0) + 40),
+        height: element?.[0]?.scrollHeight,
       });
     };
     window.addEventListener('resize', handleResize);
@@ -22,6 +21,13 @@ const useWindowDimensions = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    setSize((prevSize) => ({
+      ...prevSize,
+      height: element?.[0]?.scrollHeight,
+    }));
+  }, [element?.[0]?.scrollHeight]);
 
   return size;
 };

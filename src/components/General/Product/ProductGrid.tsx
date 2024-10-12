@@ -1,39 +1,34 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Grid, Spinner } from '@radix-ui/themes';
 import ProductItem from './ProductItem/ProductItem';
 import { Product } from '../../../api';
-import useWindowDimensions from '../../../hooks/WindowDimensions';
 
 type Props = {
   products: Array<Product>,
   isLoading?: boolean,
-  isHome?: boolean,
 };
 
-function ProductGrid({ products, isLoading = false, isHome = true }: Readonly<Props>) {
-  const { width } = useWindowDimensions();
-  const leftBarWidth = 255;
-  const productTileWidth = 225;
-  const getColumns = () => Math.floor((width - (isHome ? leftBarWidth : 0)) / productTileWidth);
-  const columns = useMemo(() => getColumns(), [width]);
-  const rows = useMemo(() => Math.ceil(products.length / columns), [products, columns]);
-
+function ProductGrid({ products, isLoading = false }: Readonly<Props>) {
   return (
-    <div className="product-grid" style={{ margin: 10 }}>
-      <Spinner loading={isLoading} style={{ height: 100 }}>
-        <Grid columns={columns.toString()} rows={rows.toString()} gap="3">
-          {products.map((product) => (
-            <ProductItem
-              key={product.id}
-              id={product.id}
-              imageSrc={product?.images?.[0]}
-              name={product.name}
-              price={product.price}
-            />
-          ))}
-        </Grid>
-      </Spinner>
-    </div>
+    <Spinner loading={isLoading} style={{ height: 100 }}>
+      <Grid
+        columns={{
+          initial: '1', xs: '2', sm: '2', md: '3', lg: '5', xl: '5',
+        }}
+        gap="3"
+        display="grid"
+      >
+        {products.map((product) => (
+          <ProductItem
+            key={product.id}
+            id={product.id}
+            imageSrc={product?.images?.[0]}
+            name={product.name}
+            price={product.price}
+          />
+        ))}
+      </Grid>
+    </Spinner>
   );
 }
 

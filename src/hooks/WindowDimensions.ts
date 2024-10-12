@@ -4,7 +4,7 @@ const useWindowDimensions = () => {
   const element = document.getElementsByClassName('layout');
   const [size, setSize] = useState({
     width: window.innerWidth,
-    height: element?.[0]?.scrollHeight,
+    height: Math.max(element?.[0]?.scrollHeight, window.innerHeight - 80),
   });
 
   useEffect(() => {

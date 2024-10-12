@@ -1,33 +1,36 @@
 import { useState, useEffect } from 'react';
 
 const useWindowDimensions = () => {
-  const element = document.getElementsByClassName('layout');
   const [size, setSize] = useState({
     width: window.innerWidth,
-    height: Math.max(element?.[0]?.scrollHeight, window.innerHeight - 80),
+    height: Math.max(document.documentElement.scrollHeight, window.innerHeight - 80),
   });
 
   useEffect(() => {
-    const handleResize = () => {
-      const { innerWidth } = window;
+    const element = document.getElementsByClassName('layout')?.[0];
+
+    const updateSize = () => {
       setSize({
-        width: innerWidth,
-        height: Math.max(element?.[0]?.scrollHeight, window.innerHeight - 80),
+        width: window.innerWidth,
+        height: Math.max(element?.scrollHeight ?? 0, window.innerHeight - 80),
       });
     };
-    window.addEventListener('resize', handleResize);
+
+    window.addEventListener('resize', updateSize);
+
+    const observer = new MutationObserver(updateSize);
+
+    if (element) {
+      observer.observe(element, { attributes: true, childList: true, subtree: true });
+    }
+
+    updateSize();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', updateSize);
+      observer.disconnect();
     };
   }, []);
-
-  useEffect(() => {
-    setSize((prevSize) => ({
-      ...prevSize,
-      height: Math.max(element?.[0]?.scrollHeight, window.innerHeight - 80),
-    }));
-  }, [element?.[0]?.scrollHeight]);
 
   return size;
 };

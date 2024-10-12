@@ -143,7 +143,7 @@ function Merchandising() {
   };
 
   return (
-    <form>
+    <form onSubmit={(event) => event.preventDefault()}>
       <Tabs.Root defaultValue="product">
         <Tabs.List>
           <Tabs.Trigger value="product" onClick={() => handlePageChange(0)}>

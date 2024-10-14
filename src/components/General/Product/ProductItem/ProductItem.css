@@ -22,10 +22,9 @@ p {
 }
 
 .image {
-    padding: 20px 20px 0px;
+    padding: 24px 24px 0px;
     object-fit: contain;
-    width: 85%;
-    max-height: 180px;
+    width: 75%;
 }
 
 .name-and-price {
